@@ -1,6 +1,9 @@
 import React, { useReducer } from 'react';
+import axios from 'axios';
 import authContext from "./authContext";
 import authReducer from "./authReducer";
+import setAuthToken from "../../utils/setAuthToken";
+
 import {
     REGISTER_SUCCESS,
     REGISTER_FAIL,
@@ -24,14 +27,63 @@ const AuthState = (props) => {
     const [state, dispatch] = useReducer(authReducer, initialState);
 
     // Load User
+    const loadUser = async () =>{
+        if (localStorage.token) {
+            setAuthToken(localStorage.token);
+        }
+
+        console.log('Loading user');
+        try {
+            const res = await axios.get('/users');
+
+            dispatch({
+               type: USER_LOADED,
+               payload: res.data
+            });
+        } catch (e) {
+            dispatch({type: AUTH_ERROR, payload: e});
+        }
+    };
 
     // Register User
+    //UWAGA Na strukturę odpowiedzi -> dane są w data.result, nie samo data.
+    const register = async formData => {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        const userData = {
+            username: formData.name,
+            password: formData.password,
+            email: formData.email,
+            role: formData.role
+        };
+        try {
+            const res = await axios.post('/token/signup', userData, config);
+            dispatch({
+                type: REGISTER_SUCCESS,
+                payload: res.data
+            });
+
+            loadUser();
+            //Rejestruje pomyślnie, ale nie zapisuje od razu tokena w stanie, przez co nie może później załadować?
+        } catch (e) {
+            dispatch({
+                type: REGISTER_FAIL,
+                payload: e.response.data.message
+            });
+        }
+    };
 
     // Login User
+    const login = () => console.log('login user');
 
     // Logout
+    const logout = () => console.log('logout');
 
     // Clear errors
+    const clearErrors = () => dispatch({ type: CLEAR_ERRORS});
 
     return (
         <authContext.Provider value={{
@@ -39,7 +91,12 @@ const AuthState = (props) => {
             isAuthenticated: state.isAuthenticated,
             loading: state.loading,
             user: state.user,
-            error: state.error
+            error: state.error,
+            register,
+            loadUser,
+            login,
+            logout,
+            clearErrors
         }}>
             {props.children}
         </authContext.Provider>
