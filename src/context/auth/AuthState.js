@@ -77,10 +77,34 @@ const AuthState = (props) => {
     };
 
     // Login User
-    const login = () => console.log('login user');
+    const login = async formData => {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        const userData = {
+            username: formData.name,
+            password: formData.password,
+        };
+        try {
+            const res = await axios.post('/token/generate-token', userData, config);
+            dispatch({
+                type: LOGIN_SUCCESS,
+                payload: res.data
+            });
+
+            loadUser();
+        } catch (e) {
+            dispatch({
+                type: LOGIN_FAIL,
+                payload: e.response.data.message
+            });
+        }
+    };
 
     // Logout
-    const logout = () => console.log('logout');
+    const logout = () => dispatch({type: LOGOUT});
 
     // Clear errors
     const clearErrors = () => dispatch({ type: CLEAR_ERRORS});
