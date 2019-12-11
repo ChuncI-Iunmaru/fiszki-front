@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import authContext from "../../context/auth/authContext";
+import Flashcards from "../flashcards/Flashcards";
 
 const Home = () => {
     const AuthContext = useContext(authContext);
@@ -11,8 +12,13 @@ const Home = () => {
     }, []);
 
     return (
-        <div>
-            <h1>Home</h1>
+        <div className="grid-2">
+            <div>
+                {/*Flashcard form*/}
+            </div>
+            <div>
+                <Flashcards/>
+            </div>
         </div>
     )
 };

@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
-import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import React, {Fragment} from 'react';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Home from "./components/pages/Home";
 import About from "./components/pages/About";
 import Navbar from "./components/layout/Navbar";
@@ -10,6 +10,7 @@ import AlertState from "./context/alert/AlertState";
 import Alerts from "./components/layout/Alerts";
 import setAuthToken from "./utils/setAuthToken";
 import PrivateRoute from "./components/routing/PrivateRoute";
+import FlashcardState from "./context/flashcard/FlashcardState";
 import './App.css';
 
 if (localStorage.token) {
@@ -17,26 +18,28 @@ if (localStorage.token) {
 }
 
 const App = () => {
-  return (
-      <AuthState>
-          <AlertState>
-              <Router>
-                  <Fragment>
-                      <Navbar/>
-                      <div className="container">
-                          <Alerts/>
-                          <Switch>
-                              <PrivateRoute exact path='/' component={Home}/>
-                              <Route exact path='/about' component={About}/>
-                              <Route exact path='/register' component={Register}/>
-                              <Route exact path='/login' component={Login}/>
-                          </Switch>
-                      </div>
-                  </Fragment>
-              </Router>
-          </AlertState>
-      </AuthState>
-  );
+    return (
+        <AuthState>
+            <AlertState>
+                <FlashcardState>
+                    <Router>
+                        <Fragment>
+                            <Navbar/>
+                            <div className="container">
+                                <Alerts/>
+                                <Switch>
+                                    <PrivateRoute exact path='/' component={Home}/>
+                                    <Route exact path='/about' component={About}/>
+                                    <Route exact path='/register' component={Register}/>
+                                    <Route exact path='/login' component={Login}/>
+                                </Switch>
+                            </div>
+                        </Fragment>
+                    </Router>
+                </FlashcardState>
+            </AlertState>
+        </AuthState>
+    );
 };
 
 export default App;
