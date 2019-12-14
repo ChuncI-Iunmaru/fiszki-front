@@ -2,6 +2,7 @@ import React, { useReducer } from 'react';
 import uuid from 'uuid';
 import FlashcardContext from "./flashcardContext";
 import flashcardReducer from "./flashcardReducer";
+import axios from 'axios';
 import {
     ADD_FLASHCARD,
     DELETE_FLASHCARD,
@@ -9,69 +10,117 @@ import {
     CLEAR_CURRENT,
     UPDATE_FLASHCARD,
     FILTER_FLASHCARDS,
-    CLEAR_FILTER
+    CLEAR_FILTER,
+    FLASHCARD_ERROR,
+    GET_FLASHCARDS,
+    CLEAR_FLASHCARDS
 } from "../types";
 
 const FlashcardState = props => {
     const initialState = {
-        flashcards: [
-            {
-                id: 7,
-                user: 1,
-                frontText: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Cole_Thomas_The_Course_of_Empire_The_Savage_State_1836.jpg/1024px-Cole_Thomas_The_Course_of_Empire_The_Savage_State_1836.jpg",
-                backText: "To Tylko Test",
-                extraText: null,
-                tags: [
-                    "testowa",
-                    "Integracyjna",
-                    "test"
-                ]
-            },
-            {
-                id: 8,
-                user: 1,
-                frontText: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Black_Ant_-_02_-_Oh_K.mp3",
-                backText: "To znowu Test",
-                extraText: null,
-                tags: [
-                    "testowa",
-                    "Integracyjna",
-                    "test"
-                ]
-            },
-            {
-                id: 9,
-                user: 1,
-                frontText: "https://boards.4channel.org/a/",
-                backText: "To wciąż Test",
-                extraText: null,
-                tags: [
-                    "Integracyjna",
-                    "test"
-                ]
-            }
-        ]
+        flashcards: null,
+        current: null,
+        filtered: null,
+        error: null,
+        loading: true
     };
 
     const [state, dispatch] = useReducer(flashcardReducer, initialState);
 
+    // Get flashcards
+    const getFlashcards = async () => {
+        try {
+            const res = await axios.get('/flashcards/user');
+            dispatch({ type: GET_FLASHCARDS, payload: res.data});
+        } catch (e) {
+            dispatch({type: FLASHCARD_ERROR, payload: e.response.data.message});
+        }
+    };
+
     // Add flashcard
-
-    // Delete flashcard
-
-    // Set current flashcard
-
-    // Clear current
+    const addFlashcard = async flashcard => {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        try {
+            const res = await axios.post('/flashcards', flashcard, config);
+            dispatch({ type: ADD_FLASHCARD, payload: res.data});
+        } catch (e) {
+            dispatch({type: FLASHCARD_ERROR, payload: e.response.data.message});
+        }
+    };
 
     // Update flashcard
+    const updateFlashcard = async flashcard => {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        try {
+            const res = await axios.put(`/flashcards/${flashcard.id}`, flashcard, config);
+            dispatch({ type: UPDATE_FLASHCARD, payload: res.data});
+        } catch (e) {
+            dispatch({type: FLASHCARD_ERROR, payload: e.response.data.message});
+        }};
+
+    // Delete flashcard
+    const deleteFlashcard = async id => {
+        try {
+            const res = await axios.delete(`/flashcards/${id}`);
+            dispatch({ type: DELETE_FLASHCARD, payload: id});
+        } catch (e) {
+            dispatch({type: FLASHCARD_ERROR, payload: e.response.data.message});
+        }};
+
+    // Clear flashcards
+    const clearFlashcards = () => {
+        dispatch({ type: CLEAR_FLASHCARDS});
+    };
+
+
+    // Set current flashcard
+    const setCurrent = flashcard => {
+        dispatch({ type: SET_CURRENT, payload: flashcard});
+    };
+
+    // Clear current
+    const clearCurrent = () => {
+        dispatch({ type: CLEAR_CURRENT});
+    };
 
     // Filter flashcards
+    const filterFlashcards = async tags => {
+        try {
+            const res = await axios.get(`/flashcards/tags_${tags}`);
+            dispatch({ type: FILTER_FLASHCARDS, payload: res.data});
+        } catch (e) {
+            dispatch({type: FLASHCARD_ERROR, payload: e.response.data.message});
+        }
+    };
 
     // Clear filter
+    const clearFilter = () => {
+        dispatch({ type: CLEAR_FILTER});
+    };
 
     return (
         <FlashcardContext.Provider  value = {{
-            flashcards: state.flashcards
+            flashcards: state.flashcards,
+            addFlashcard,
+            deleteFlashcard,
+            current: state.current,
+            clearCurrent,
+            setCurrent,
+            updateFlashcard,
+            filtered: state.filtered,
+            clearFilter,
+            filterFlashcards,
+            error: state.error,
+            getFlashcards,
+            clearFlashcards
         }}>
             {props.children}
         </FlashcardContext.Provider>

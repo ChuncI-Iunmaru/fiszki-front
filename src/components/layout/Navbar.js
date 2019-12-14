@@ -2,14 +2,18 @@ import React, { Fragment, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 import authContext from "../../context/auth/authContext";
+import FlashcardContext from "../../context/flashcard/flashcardContext";
 
 const Navbar = ({ title, icon }) => {
     const AuthContext = useContext(authContext);
+    const flashcardContext = useContext(FlashcardContext);
 
     const { isAuthenticated, logout, user } = AuthContext;
+    const { clearFlashcards } = flashcardContext;
 
     const onLogout = () => {
         logout();
+        clearFlashcards();
     };
 
     const authLinks = (
