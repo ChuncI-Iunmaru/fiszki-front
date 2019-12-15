@@ -21,3 +21,12 @@ export const CLEAR_FILTER = 'CLEAR_FILTER';
 export const FLASHCARD_ERROR = 'FLASHCARD_ERROR';
 export const GET_FLASHCARDS = 'GET_FLASHCARDS';
 export const CLEAR_FLASHCARDS = 'CLEAR_FLASHCARDS';
+//Sets
+export const ADD_SET = 'ADD_SET';
+export const DELETE_SET = 'DELETE_SET';
+export const SET_CURRENT_SET = 'SET_CURRENT_SET';
+export const CLEAR_CURRENT_SET = 'CLEAR_CURRENT_SET';
+export const UPDATE_SET = 'UPDATE_SET';
+export const SET_ERROR = 'SET_ERROR';
+export const GET_SETS = 'GET_SETS';
+export const CLEAR_SETS = 'CLEAR_SETS';

@@ -11,6 +11,9 @@ import Alerts from "./components/layout/Alerts";
 import setAuthToken from "./utils/setAuthToken";
 import PrivateRoute from "./components/routing/PrivateRoute";
 import FlashcardState from "./context/flashcard/FlashcardState";
+import SetState from "./context/flashcardSet/SetState";
+import BrowseSets from "./components/pages/BrowseSets";
+import EditSet from "./components/pages/EditSet";
 import './App.css';
 
 if (localStorage.token) {
@@ -21,22 +24,26 @@ const App = () => {
     return (
         <AuthState>
             <AlertState>
-                <FlashcardState>
-                    <Router>
-                        <Fragment>
-                            <Navbar/>
-                            <div className="container">
-                                <Alerts/>
-                                <Switch>
-                                    <PrivateRoute exact path='/' component={Home}/>
-                                    <Route exact path='/about' component={About}/>
-                                    <Route exact path='/register' component={Register}/>
-                                    <Route exact path='/login' component={Login}/>
-                                </Switch>
-                            </div>
-                        </Fragment>
-                    </Router>
-                </FlashcardState>
+                <SetState>
+                    <FlashcardState>
+                        <Router>
+                            <Fragment>
+                                <Navbar/>
+                                <div className="container">
+                                    <Alerts/>
+                                    <Switch>
+                                        <PrivateRoute exact path='/' component={Home}/>
+                                        <PrivateRoute exact path='/sets' component={BrowseSets}/>
+                                        <PrivateRoute exact path='/editSet' component={EditSet}/>
+                                        <Route exact path='/about' component={About}/>
+                                        <Route exact path='/register' component={Register}/>
+                                        <Route exact path='/login' component={Login}/>
+                                    </Switch>
+                                </div>
+                            </Fragment>
+                        </Router>
+                    </FlashcardState>
+                </SetState>
             </AlertState>
         </AuthState>
     );

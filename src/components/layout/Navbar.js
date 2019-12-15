@@ -20,6 +20,12 @@ const Navbar = ({ title, icon }) => {
       <Fragment>
           <li>Witaj { user && user.username} </li>
           <li>
+              <Link to="/">Fiszki</Link>
+          </li>
+          <li>
+              <Link to="/sets">Zestawy</Link>
+          </li>
+          <li>
               <a onClick={onLogout} href="#!"><i className="fas fa-sign-out-alt"></i><span className="hide-sm">Wyloguj</span></a>
           </li>
       </Fragment>
