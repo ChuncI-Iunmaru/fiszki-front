@@ -20,7 +20,7 @@ const Home = () => {
             </div>
             <div>
                 <FlashcardFilter/>
-                <Flashcards/>
+                <Flashcards checkOnly={false}/>
             </div>
         </div>
     )

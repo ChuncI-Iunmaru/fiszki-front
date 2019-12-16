@@ -8,7 +8,11 @@ import {
     CLEAR_FILTER,
     FLASHCARD_ERROR,
     GET_FLASHCARDS,
-    CLEAR_FLASHCARDS
+    CLEAR_FLASHCARDS,
+    MARK_FLASHCARD,
+    UNMARK_FLASHCARD,
+    CLEAR_MARKED,
+    SET_MARKED
 } from "../types";
 
 export default (state, action) => {
@@ -65,6 +69,26 @@ export default (state, action) => {
             return {
                 ...state,
                 filtered: null
+            };
+        case MARK_FLASHCARD:
+            return {
+                ...state,
+                marked: [action.payload, ...state.marked]
+            };
+        case UNMARK_FLASHCARD:
+            return {
+                ...state,
+                marked: state.marked.filter(flashcard => flashcard.id !== action.payload)
+            };
+        case CLEAR_MARKED:
+            return {
+                ...state,
+                marked: []
+            };
+        case SET_MARKED:
+            return {
+                ...state,
+                marked: action.payload
             };
         case FLASHCARD_ERROR:
             return {

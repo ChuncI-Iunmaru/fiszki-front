@@ -13,7 +13,11 @@ import {
     CLEAR_FILTER,
     FLASHCARD_ERROR,
     GET_FLASHCARDS,
-    CLEAR_FLASHCARDS
+    CLEAR_FLASHCARDS,
+    MARK_FLASHCARD,
+    UNMARK_FLASHCARD,
+    CLEAR_MARKED,
+    SET_MARKED
 } from "../types";
 
 const FlashcardState = props => {
@@ -21,6 +25,7 @@ const FlashcardState = props => {
         flashcards: null,
         current: null,
         filtered: null,
+        marked: [],
         error: null,
         loading: true
     };
@@ -106,6 +111,26 @@ const FlashcardState = props => {
         dispatch({ type: CLEAR_FILTER});
     };
 
+    // Mark flashcard
+    const markFlashcard = flashcard => {
+        dispatch({ type: MARK_FLASHCARD, payload: flashcard});
+    };
+
+    // Unamark flashcard
+    const unmarkFlashcard = id => {
+        dispatch({ type: UNMARK_FLASHCARD, payload: id});
+    };
+
+    // Clear marked
+    const clearMarked = () => {
+        dispatch({ type: CLEAR_MARKED});
+    };
+
+    // Set marked
+    const setMarked = markedFlashcards => {
+        dispatch({ type: SET_MARKED, payload: markedFlashcards});
+    };
+
     return (
         <FlashcardContext.Provider  value = {{
             flashcards: state.flashcards,
@@ -120,7 +145,10 @@ const FlashcardState = props => {
             filterFlashcards,
             error: state.error,
             getFlashcards,
-            clearFlashcards
+            clearFlashcards,
+            markFlashcard,
+            unmarkFlashcard,
+            marked: state.marked
         }}>
             {props.children}
         </FlashcardContext.Provider>

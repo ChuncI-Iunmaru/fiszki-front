@@ -21,6 +21,11 @@ export const CLEAR_FILTER = 'CLEAR_FILTER';
 export const FLASHCARD_ERROR = 'FLASHCARD_ERROR';
 export const GET_FLASHCARDS = 'GET_FLASHCARDS';
 export const CLEAR_FLASHCARDS = 'CLEAR_FLASHCARDS';
+//Marked flashcards
+export const MARK_FLASHCARD = 'MARK_FLASHCARDS';
+export const UNMARK_FLASHCARD = 'UNMARK_FLASHCARD';
+export const CLEAR_MARKED = 'CLEAR_MARKED';
+export const SET_MARKED = 'SET_MARKED';
 //Sets
 export const ADD_SET = 'ADD_SET';
 export const DELETE_SET = 'DELETE_SET';

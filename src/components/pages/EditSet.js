@@ -1,6 +1,8 @@
 import React, { useContext, useEffect } from 'react';
 import AuthContext from "../../context/auth/authContext";
 import SetForm from "../sets/SetForm";
+import Flashcards from "../flashcards/Flashcards";
+import FlashcardFilter from "../flashcards/FlashcardFilter"
 
 const EditSet = () => {
     const authContext = useContext(AuthContext);
@@ -13,7 +15,13 @@ const EditSet = () => {
 
     return (
         <div className="grid-2">
-            <SetForm/>
+            <div>
+                <SetForm/>
+            </div>
+            <div>
+                <FlashcardFilter/>
+                <Flashcards checkOnly={true}/>
+            </div>
         </div>
     )
 };

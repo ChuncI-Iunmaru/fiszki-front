@@ -1,9 +1,14 @@
 import React, { useState, useContext } from 'react';
 import SetContext from "../../context/flashcardSet/setContext";
+import FlashcardContext from "../../context/flashcard/flashcardContext";
 
 const SetForm = () => {
     const setContext = useContext(SetContext);
+    const flashcardContext = useContext(FlashcardContext);
 
+    const { marked } = flashcardContext;
+
+    //Skopiować marked do flashcards przy submit
     const [set, setSet] = useState({
         creator: null,
         title: '',
@@ -26,15 +31,17 @@ const SetForm = () => {
             <input type="text" placeholder="Nazwa zestawu..." name="title" value={title} onChange={onChange}/>
             <input type="password" placeholder="Hasło..." name="password" value={password} onChange={onChange}/>
 
+            { marked.length === 0 && <span className="badge-danger">Nie zaznaczono żadnych fiszek</span>}
+
             <div className="form-group">
                 <label htmlFor="dailyAmount">Dzienna ilość fiszek:</label>
-                <input type="number" name="dailyAmount" min="1" max={flashcards.length}
+                <input type="number" name="dailyAmount" min="1" max={marked.length}
                        value={dailyAmount} onChange={onChange}/>
             </div>
             <div className="form-group">
                 <label htmlFor="testQuestionsNum">Ilość pytań testowych:</label>
                 <input type="number" name="testQuestionsNum" min="1"
-                       max={flashcards.length} value={testQuestionsNum} onChange={onChange}/>
+                       max={marked.length} value={testQuestionsNum} onChange={onChange}/>
             </div>
             <div className="form-group">
                 <label htmlFor="testTime">Czas testu, 0 - brak limitu:</label>
