@@ -45,20 +45,47 @@ const SetState = props => {
                   8
               ],
               password: "$2a$10$LE3fWWIpdyoPayZBDD028eIzUIbzHXRjTw.N.Ly0lQbiElYRyxFiq"
-          }]
+          }],
+      current: null
   };
 
   const [state, dispatch] = useReducer(setReducer, initialState);
 
   // Add set
+    const addSet = (set, flashcards, creator) => {
+        //console.log(creator);
+        //console.log(flashcards);
+        set.id = uuid.v4();
+        set.flashcards = flashcards;
+        set.creator = creator;
+        //console.log(set);
+        dispatch({ type: ADD_SET, payload: set});
+    };
 
   // Delete set
+    const deleteSet = id => {
+        dispatch({ type: DELETE_SET, payload: id});
+    };
 
   // Update set
+    const updateSet = (set, flashcards, creator) => {
+        //console.log(creator);
+        //console.log(flashcards);
+        set.flashcards = flashcards;
+        set.creator = creator;
+        //console.log(set);
+        dispatch({ type: UPDATE_SET, payload: set});
+    };
 
   // Set current
+    const setCurrentSet = set => {
+        dispatch({type: SET_CURRENT_SET, payload: set})
+    };
 
   // Clear current
+    const clearCurrentSet = set => {
+        dispatch({type: CLEAR_CURRENT_SET})
+    };
 
   // Get sets
 
@@ -67,7 +94,13 @@ const SetState = props => {
   return (
       <SetContext.Provider
       value={{
-          sets: state.sets
+          sets: state.sets,
+          addSet,
+          deleteSet,
+          current: state.current,
+          setCurrentSet,
+          clearCurrentSet,
+          updateSet
       }}>
           { props.children}
       </SetContext.Provider>

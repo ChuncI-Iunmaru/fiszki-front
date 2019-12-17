@@ -148,7 +148,9 @@ const FlashcardState = props => {
             clearFlashcards,
             markFlashcard,
             unmarkFlashcard,
-            marked: state.marked
+            marked: state.marked,
+            clearMarked,
+            setMarked
         }}>
             {props.children}
         </FlashcardContext.Provider>

@@ -1,8 +1,29 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
+import SetContext from "../../context/flashcardSet/setContext";
+import FlashcardContext from "../../context/flashcard/flashcardContext";
 
-const SetItem = ({ set }) => {
-    const { title, dailyAmount, testQuestionsNum, testTime, testAttempts, testAccessible, flashcards } = set;
+const SetItem = ({ set, history }) => {
+    const setContext = useContext(SetContext);
+    const flashcardContext = useContext(FlashcardContext);
+    const { clearMarked, setMarked } = flashcardContext;
+
+    const { deleteSet, setCurrentSet, clearCurrentSet } = setContext;
+    const {id, title, dailyAmount, testQuestionsNum, testTime, testAttempts, testAccessible, flashcards } = set;
+
+    const onDelete = () => {
+        deleteSet(id);
+        clearMarked();
+        clearCurrentSet();
+    };
+
+    const onEdit = () => {
+        setCurrentSet(set);
+        setMarked(flashcards);
+        // redirect do strony edycji
+        history.push("/editSet");
+    };
 
     return (
         <div className="card bg-light">
@@ -23,8 +44,8 @@ const SetItem = ({ set }) => {
                     : (<i className="fas fa-infinity"></i>)}</li>
             </ul>
             <p>
-                <button className="btn btn-dark btn-sm">Edytuj</button>
-                <button className="btn btn-danger btn-sm">Usuń</button>
+                <button className="btn btn-dark btn-sm" onClick={onEdit}>Edytuj</button>
+                <button className="btn btn-danger btn-sm" onClick={onDelete}>Usuń</button>
             </p>
         </div>
     )
@@ -34,4 +55,4 @@ SetItem.propTypes = {
     set: PropTypes.object.isRequired,
 };
 
-export default SetItem;
+export default withRouter(SetItem);

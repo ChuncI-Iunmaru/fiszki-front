@@ -1,12 +1,17 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import SetContext from "../../context/flashcardSet/setContext";
+import { withRouter } from 'react-router-dom';
 import FlashcardContext from "../../context/flashcard/flashcardContext";
+import AuthContext from "../../context/auth/authContext";
 
-const SetForm = () => {
+const SetForm = (props) => {
     const setContext = useContext(SetContext);
     const flashcardContext = useContext(FlashcardContext);
+    const authContext = useContext(AuthContext);
 
-    const { marked } = flashcardContext;
+    const { addSet, current, clearCurrentSet, updateSet } = setContext;
+    const { marked, clearMarked} = flashcardContext;
+    const { user } = authContext;
 
     //Skopiować marked do flashcards przy submit
     const [set, setSet] = useState({
@@ -21,13 +26,62 @@ const SetForm = () => {
         password: ''
     });
 
+    useEffect(() => {
+        if (current !== null) {
+            setSet(current);
+            //TODO Tu powinno być pobranie z bazy listy fiszek dla danego zestawu i przekazanie ich jako parametr
+            //ALbo przekazanie id zestawu jako parametr czy coś
+        } else {
+            setSet({
+                creator: null,
+                title: '',
+                dailyAmount: 0,
+                testQuestionsNum: 0,
+                testTime: 0,
+                testAttempts: 0,
+                testAccessible: 'ALWAYS',
+                flashcards: [],
+                password: ''
+            });
+            clearMarked();
+        }
+    }, [setContext, current]);
+
     const {creator, title, dailyAmount, testQuestionsNum, testTime, testAttempts, testAccessible, flashcards, password} = set;
 
     const onChange = e => setSet({...set, [e.target.name]: e.target.value});
 
+    const onSubmit = e =>{
+        e.preventDefault();
+        if (current === null) {
+            addSet(set, marked, user);
+        } else {
+            updateSet(set, marked, user);
+        }
+        // TODO nie haszować hasła w backend, albo jak inaczej je odszyfrować
+        clearMarked();
+        setSet({
+            creator: null,
+            title: '',
+            dailyAmount: 0,
+            testQuestionsNum: 0,
+            testTime: 0,
+            testAttempts: 0,
+            testAccessible: 'ALWAYS',
+            flashcards: [],
+            password: ''
+        });
+        props.history.push('/sets');
+    };
+
+    const clearAll = () => {
+        clearCurrentSet();
+        clearMarked();
+    };
+
     return (
-        <form>
-            <h2 className="text-primary">Nowy zestaw</h2>
+        <form onSubmit={onSubmit}>
+            <h2 className="text-primary">{current ? 'Edytuj zestaw' : 'Nowy zestaw'}</h2>
             <input type="text" placeholder="Nazwa zestawu..." name="title" value={title} onChange={onChange}/>
             <input type="password" placeholder="Hasło..." name="password" value={password} onChange={onChange}/>
 
@@ -63,10 +117,13 @@ const SetForm = () => {
             </div>
 
             <div>
-                <input type="submit" value="Dodaj" className="btn btn-primary btn-block"/>
+                <input type="submit" value={current ? 'Zapisz zmiany' : 'Dodaj'} className="btn btn-primary btn-block"/>
             </div>
+            {current && <div>
+                <button className="btn btn-light btn-block" onClick={clearAll}>Wyczyść</button>
+            </div>}
         </form>
     )
 };
 
-export default SetForm;
+export default withRouter(SetForm);
