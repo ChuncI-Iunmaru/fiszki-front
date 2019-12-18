@@ -25,6 +25,12 @@ const SetItem = ({ set, history }) => {
         history.push("/editSet");
     };
 
+    const onSubscribers = () => {
+        // TODO Załaduj listę zapisanych na dany zestaw
+        //Przekieruj na stronę z detalami
+        history.push('/subscription');
+    };
+
     return (
         <div className="card bg-light">
             <h3 className="text-primary text-left">{title}</h3>
@@ -46,6 +52,7 @@ const SetItem = ({ set, history }) => {
             <p>
                 <button className="btn btn-dark btn-sm" onClick={onEdit}>Edytuj</button>
                 <button className="btn btn-danger btn-sm" onClick={onDelete}>Usuń</button>
+                <button className="btn btn-primary btn-sm" onClick={onSubscribers}>Uczniowie</button>
             </p>
         </div>
     )
