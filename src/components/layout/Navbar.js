@@ -20,7 +20,7 @@ const Navbar = ({ title, icon }) => {
       <Fragment>
           <li>Witaj { user && user.username} </li>
           <li>
-              <Link to="/">Fiszki</Link>
+              <Link to="/myFlashcards">Fiszki</Link>
           </li>
           <li>
               <Link to="/sets">Zestawy</Link>

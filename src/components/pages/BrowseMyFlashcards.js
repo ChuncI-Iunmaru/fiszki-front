@@ -4,7 +4,7 @@ import Flashcards from "../flashcards/Flashcards";
 import FlashcardForm from "../flashcards/FlashcardForm";
 import FlashcardFilter from "../flashcards/FlashcardFilter";
 
-const Home = () => {
+const BrowseMyFlashcards = () => {
     const AuthContext = useContext(authContext);
 
     useEffect(() => {
@@ -15,9 +15,15 @@ const Home = () => {
 
     return (
         <div className="grid-2">
-            Strona główna
+            <div>
+                <FlashcardForm/>
+            </div>
+            <div>
+                <FlashcardFilter/>
+                <Flashcards checkOnly={false}/>
+            </div>
         </div>
     )
 };
 
-export default Home;
+export default BrowseMyFlashcards;

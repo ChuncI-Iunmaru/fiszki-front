@@ -17,6 +17,7 @@ import EditSet from "./components/pages/EditSet";
 import Subscription from "./components/pages/Subscription";
 import SubscriptionState from "./context/subscription/SubscriptionState";
 import BrowseFlashcardsFromSet from "./components/pages/BrowseFlashcardsFromSet";
+import BrowseMyFlashcards from "./components/pages/BrowseMyFlashcards";
 import './App.css';
 
 if (localStorage.token) {
@@ -40,6 +41,7 @@ const App = () => {
                                             <PrivateRoute exact path='/sets' component={BrowseSets}/>
                                             <PrivateRoute exact path='/editSet' component={EditSet}/>
                                             <PrivateRoute exact path='/subscription' component={Subscription}/>
+                                            <PrivateRoute exact path='/myFlashcards' component={BrowseMyFlashcards}/>
                                             <Route exact path='/setFlashcards' component={BrowseFlashcardsFromSet}/>
                                             <Route exact path='/about' component={About}/>
                                             <Route exact path='/register' component={Register}/>
