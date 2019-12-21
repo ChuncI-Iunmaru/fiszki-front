@@ -3,15 +3,18 @@ import SetContext from "../../context/flashcardSet/setContext";
 import { withRouter } from 'react-router-dom';
 import FlashcardContext from "../../context/flashcard/flashcardContext";
 import AuthContext from "../../context/auth/authContext";
+import AlertContext from "../../context/alert/alertContext";
 
 const SetForm = (props) => {
     const setContext = useContext(SetContext);
     const flashcardContext = useContext(FlashcardContext);
     const authContext = useContext(AuthContext);
+    const alertContext = useContext(AlertContext);
 
     const { addSet, current, clearCurrentSet, updateSet } = setContext;
     const { marked, clearMarked} = flashcardContext;
     const { user } = authContext;
+    const { setAlert } = alertContext;
 
     //Skopiować marked do flashcards przy submit
     const [set, setSet] = useState({
@@ -53,25 +56,32 @@ const SetForm = (props) => {
 
     const onSubmit = e =>{
         e.preventDefault();
-        if (current === null) {
-            addSet(set, marked, user);
+        if (title === '') {
+            setAlert('Tytuł nie może być pusty!', 'danger');
+        } else if (marked.length === 0) {
+            setAlert('Conajmniej 1 fiszka musi być zaznaczona!', 'danger');
         } else {
-            updateSet(set, marked, user);
+            e.preventDefault();
+            if (current === null) {
+                addSet(set, marked, user);
+            } else {
+                updateSet(set, marked, user);
+            }
+            // TODO nie haszować hasła w backend, albo jak inaczej je odszyfrować
+            clearMarked();
+            setSet({
+                creator: null,
+                title: '',
+                dailyAmount: 0,
+                testQuestionsNum: 0,
+                testTime: 0,
+                testAttempts: 0,
+                testAccessible: 'ALWAYS',
+                flashcards: [],
+                password: ''
+            });
+            props.history.push('/sets');
         }
-        // TODO nie haszować hasła w backend, albo jak inaczej je odszyfrować
-        clearMarked();
-        setSet({
-            creator: null,
-            title: '',
-            dailyAmount: 0,
-            testQuestionsNum: 0,
-            testTime: 0,
-            testAttempts: 0,
-            testAccessible: 'ALWAYS',
-            flashcards: [],
-            password: ''
-        });
-        props.history.push('/sets');
     };
 
     const clearAll = () => {
