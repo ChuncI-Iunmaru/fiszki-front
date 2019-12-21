@@ -7,7 +7,7 @@ const getLinkType = (link) => {
         '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
     if (pattern.test(link)) {
         const imagePattern = new RegExp('\\.(jpg|png|gif)$');
-        const audioPattern = new RegExp('\\.(wav|mp3)$');
+        const audioPattern = new RegExp('\\.(wav|mp3|ogg)$');
         if (imagePattern.test(link)) return { type: 'image', extension: imagePattern.exec(link)[1]};
         else if (audioPattern.test(link)) return { type: 'audio', extension: audioPattern.exec(link)[1]};
         else return { type: 'unsupported', extension: 'link'};

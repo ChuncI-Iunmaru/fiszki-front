@@ -56,11 +56,11 @@ const Register = (props) => {
     return (
         <div className="form-container">
             <h1>
-                Account <span className="text-primary">Register</span>
+                <span className="text-primary">Nowe konto</span>
             </h1>
             <form onSubmit={onSubmit}>
                 <div className="form-group">
-                    <label htmlFor="name">Name</label>
+                    <label htmlFor="name">Nazwa użytkownika</label>
                     <input type="text" name="name" value={name} onChange={onChange}/>
                 </div>
                 <div className="form-group">
@@ -68,11 +68,11 @@ const Register = (props) => {
                     <input type="email" name="email" value={email} onChange={onChange}/>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="password">Password</label>
+                    <label htmlFor="password">Hasło</label>
                     <input type="password" name="password" value={password} onChange={onChange}/>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="password2">Password</label>
+                    <label htmlFor="password2">Powtórz hasło</label>
                     <input type="password" name="password2" value={password2} onChange={onChange}/>
                 </div>
                 <div className="form-group">
@@ -80,7 +80,7 @@ const Register = (props) => {
                     <input type="radio" name="role" value="student" checked={role === 'student'} onChange={onChange}/> Uczeń{' '}
                     <input type="radio" name="role" value="teacher" checked={role === 'teacher'} onChange={onChange}/> Nauczyciel{' '}
                 </div>
-                <input type="submit" value="Register" className="btn btn-primary btn-block"/>
+                <input type="submit" value="Zarejestruj" className="btn btn-primary btn-block"/>
             </form>
         </div>
     );
