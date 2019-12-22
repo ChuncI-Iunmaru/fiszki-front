@@ -5,8 +5,9 @@ import {
     CLEAR_CURRENT_SET,
     UPDATE_SET,
     SET_ERROR,
-    GET_SETS,
-    CLEAR_SETS
+    GET_MY_SETS,
+    CLEAR_SETS,
+    GET_ALL_SETS
 } from "../types";
 
 export default (state, action) => {
@@ -14,17 +15,20 @@ export default (state, action) => {
         case ADD_SET:
             return {
                 ...state,
-                sets: [...state.sets, action.payload]
+                sets: [...state.sets, action.payload.result],
+                loading: false
             };
         case UPDATE_SET:
             return {
                 ...state,
-                sets: state.sets.map(set => set.id === action.payload.id ? action.payload : set)
+                sets: state.sets.map(set => set.id === action.payload.result.id ? action.payload.result : set),
+                loading: false
             };
         case DELETE_SET:
             return {
                 ...state,
-                sets: state.sets.filter(set => set.id !== action.payload)
+                sets: state.sets.filter(set => set.id !== action.payload),
+                loading: false
             };
         case SET_CURRENT_SET:
             return {
@@ -35,6 +39,17 @@ export default (state, action) => {
             return {
                 ...state,
                 current: null
+            };
+        case GET_MY_SETS:
+            return {
+                ...state,
+                sets: action.payload.result,
+                loading: false
+            };
+        case SET_ERROR:
+            return {
+                ...state,
+                error: action.payload
             };
         default:
             return state;

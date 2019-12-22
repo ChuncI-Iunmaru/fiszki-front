@@ -22,7 +22,7 @@ const BrowseFlashcardsFromSet = () => {
     }
 
 
-    // TODO Ten div może na środku
+    // TODO Ten spinner może na środku
     return (
         <div className="grid-2">
             {flashcards !== null && !loading

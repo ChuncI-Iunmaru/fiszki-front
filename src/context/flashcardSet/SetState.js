@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
-import uuid from 'uuid';
 import SetContext from "./setContext";
 import setReducer from  "./setReducer";
+import axios from 'axios';
 import {
     ADD_SET,
     DELETE_SET,
@@ -9,72 +9,74 @@ import {
     CLEAR_CURRENT_SET,
     UPDATE_SET,
     SET_ERROR,
-    GET_SETS,
-    CLEAR_SETS
+    GET_MY_SETS,
+    CLEAR_SETS,
+    GET_ALL_SETS,
 } from "../types";
 
 const SetState = props => {
   const initialState = {
-      sets: [
-          {
-              id: 4,
-              creator: 1,
-              title: "NAZWA testowy zestaw",
-              dailyAmount: 1,
-              testQuestionsNum: 10,
-              testTime: 0,
-              testAttempts: 0,
-              testAccessible: "ALWAYS",
-              flashcards: [
-                  9,
-                  8
-              ],
-              password: "$2a$10$gWcADYz.SrIRaNOIRZhfB.kKvZ8jI3RtT3WwJoTGF3/zOokDWpf22"
-          },
-          {
-              id: 5,
-              creator: 1,
-              title: "INNY testowy zestaw",
-              dailyAmount: 1,
-              testQuestionsNum: 10,
-              testTime: 0,
-              testAttempts: 0,
-              testAccessible: "ALWAYS",
-              flashcards: [
-                  9,
-                  8
-              ],
-              password: "$2a$10$LE3fWWIpdyoPayZBDD028eIzUIbzHXRjTw.N.Ly0lQbiElYRyxFiq"
-          }],
-      current: null
+      sets: [],
+      current: null,
+      loading: true,
+      error: null
   };
 
   const [state, dispatch] = useReducer(setReducer, initialState);
 
   // Add set
-    const addSet = (set, flashcards, creator) => {
+    const addSet = async (set, flashcards, creator) => {
         //console.log(creator);
         //console.log(flashcards);
-        set.id = uuid.v4();
+        // Wymusza poprawną serializację w backendzie z JsonIdentity info - user jako obiekt może pojawić się raz, reszta id
+        for (let flashcard of flashcards) {
+            flashcard.user = creator.id;
+        }
         set.flashcards = flashcards;
         set.creator = creator;
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
         //console.log(set);
-        dispatch({ type: ADD_SET, payload: set});
+        try {
+            const res = await axios.post('/flashcard_set', set, config);
+            dispatch({ type: ADD_SET, payload: res.data});
+        } catch (e) {
+            dispatch({type: SET_ERROR, payload: e.response.data.message});
+        }
     };
 
   // Delete set
-    const deleteSet = id => {
-        dispatch({ type: DELETE_SET, payload: id});
+    const deleteSet = async id => {
+        try {
+            const res = await axios.delete(`/flashcard_set/${id}`);
+            dispatch({ type: DELETE_SET, payload: id});
+        } catch (e) {
+            dispatch({type: SET_ERROR, payload: e.response.data.message});
+        }
     };
 
   // Update set
-    const updateSet = (set, flashcards, creator) => {
-        //console.log(creator);
-        //console.log(flashcards);
+    const updateSet = async (set, flashcards, creator) => {
+        // Jak w addSet()
+        for (let flashcard of flashcards) {
+            flashcard.user = creator.id;
+        }
         set.flashcards = flashcards;
         set.creator = creator;
-        //console.log(set);
-        dispatch({ type: UPDATE_SET, payload: set});
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        try {
+            const res = await axios.put(`/flashcard_set/${set.id}`, set, config);
+            dispatch({ type: UPDATE_SET, payload: res.data});
+        } catch (e) {
+            dispatch({type: SET_ERROR, payload: e.response.data.message});
+        }
     };
 
   // Set current
@@ -88,6 +90,14 @@ const SetState = props => {
     };
 
   // Get sets
+    const getMySets = async () => {
+        try {
+            const res = await axios.get('/flashcard_set');
+            dispatch({ type: GET_MY_SETS, payload: res.data});
+        } catch (e) {
+            dispatch({type: SET_ERROR, payload: e.response.data.message});
+        }
+    };
 
   // Clear sets
 
@@ -95,12 +105,15 @@ const SetState = props => {
       <SetContext.Provider
       value={{
           sets: state.sets,
+          loading: state.loading,
           addSet,
           deleteSet,
           current: state.current,
           setCurrentSet,
           clearCurrentSet,
-          updateSet
+          updateSet,
+          getMySets,
+          error: state.error
       }}>
           { props.children}
       </SetContext.Provider>

@@ -33,5 +33,6 @@ export const SET_CURRENT_SET = 'SET_CURRENT_SET';
 export const CLEAR_CURRENT_SET = 'CLEAR_CURRENT_SET';
 export const UPDATE_SET = 'UPDATE_SET';
 export const SET_ERROR = 'SET_ERROR';
-export const GET_SETS = 'GET_SETS';
+export const GET_MY_SETS = 'GET_MY_SETS';
+export const GET_ALL_SETS = 'GET_ALL_SETS';
 export const CLEAR_SETS = 'CLEAR_SETS';
