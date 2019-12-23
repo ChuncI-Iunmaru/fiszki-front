@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import SetContext from "../../context/flashcardSet/setContext";
 import FlashcardContext from "../../context/flashcard/flashcardContext";
 
-const SetItem = ({ set, history }) => {
+const SetItem = ({ set, history, studentView = false }) => {
     const setContext = useContext(SetContext);
     const flashcardContext = useContext(FlashcardContext);
     const { clearMarked, setMarked } = flashcardContext;
@@ -20,6 +20,8 @@ const SetItem = ({ set, history }) => {
 
     const onEdit = () => {
         setCurrentSet(set);
+        // Tutaj bug z dziejami imperium - patrz notatki
+        //console.log(set);
         setMarked(flashcards);
         // redirect do strony edycji
         history.push("/editSet");
@@ -29,6 +31,11 @@ const SetItem = ({ set, history }) => {
         // TODO Załaduj listę zapisanych na dany zestaw
         //Przekieruj na stronę z detalami
         history.push('/subscription');
+    };
+
+    const onFlashcards = () => {
+        setCurrentSet(set);
+        history.push('/setFlashcards');
     };
 
     return (
@@ -49,17 +56,22 @@ const SetItem = ({ set, history }) => {
                     ? testAttempts
                     : (<i className="fas fa-infinity"></i>)}</li>
             </ul>
-            <p>
-                <button className="btn btn-dark btn-sm" onClick={onEdit}>Edytuj</button>
-                <button className="btn btn-danger btn-sm" onClick={onDelete}>Usuń</button>
-                <button className="btn btn-primary btn-sm" onClick={onSubscribers}>Uczniowie</button>
-            </p>
+            {studentView
+                ? <p>
+                    <button className="btn btn-primary btn-sm" onClick={onFlashcards}>Fiszki</button>
+                </p>
+                : <p>
+                    <button className="btn btn-dark btn-sm" onClick={onEdit}>Edytuj</button>
+                    <button className="btn btn-danger btn-sm" onClick={onDelete}>Usuń</button>
+                    <button className="btn btn-primary btn-sm" onClick={onSubscribers}>Uczniowie</button>
+                </p>}
         </div>
     )
 };
 
 SetItem.propTypes = {
     set: PropTypes.object.isRequired,
+    studentView: PropTypes.bool
 };
 
 export default withRouter(SetItem);

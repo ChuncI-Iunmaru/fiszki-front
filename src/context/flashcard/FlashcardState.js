@@ -17,7 +17,8 @@ import {
     MARK_FLASHCARD,
     UNMARK_FLASHCARD,
     CLEAR_MARKED,
-    SET_MARKED
+    SET_MARKED,
+    GET_SET_FLASHCARDS
 } from "../types";
 
 const FlashcardState = props => {
@@ -37,6 +38,16 @@ const FlashcardState = props => {
         try {
             const res = await axios.get('/flashcards/user');
             dispatch({ type: GET_FLASHCARDS, payload: res.data});
+        } catch (e) {
+            dispatch({type: FLASHCARD_ERROR, payload: e.response.data.message});
+        }
+    };
+
+    // Get flashcards given set id
+    const getSetFlashcards = async id => {
+        try {
+            const res = await axios.get(`/flashcard_set/flashcards/${id}`);
+            dispatch({ type: GET_SET_FLASHCARDS, payload: res.data});
         } catch (e) {
             dispatch({type: FLASHCARD_ERROR, payload: e.response.data.message});
         }
@@ -150,7 +161,8 @@ const FlashcardState = props => {
             unmarkFlashcard,
             marked: state.marked,
             clearMarked,
-            setMarked
+            setMarked,
+            getSetFlashcards
         }}>
             {props.children}
         </FlashcardContext.Provider>

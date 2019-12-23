@@ -42,7 +42,7 @@ const App = () => {
                                             <PrivateRoute exact path='/editSet' component={EditSet}/>
                                             <PrivateRoute exact path='/subscription' component={Subscription}/>
                                             <PrivateRoute exact path='/myFlashcards' component={BrowseMyFlashcards}/>
-                                            <Route exact path='/setFlashcards' component={BrowseFlashcardsFromSet}/>
+                                            <PrivateRoute exact path='/setFlashcards' component={BrowseFlashcardsFromSet}/>
                                             <Route exact path='/about' component={About}/>
                                             <Route exact path='/register' component={Register}/>
                                             <Route exact path='/login' component={Login}/>

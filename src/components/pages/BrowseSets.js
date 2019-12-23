@@ -4,16 +4,19 @@ import SetContext from "../../context/flashcardSet/setContext";
 import { withRouter } from 'react-router-dom';
 import Sets from "../sets/Sets";
 import SetFilter from "../sets/SetFilter";
+import FlashcardContext from "../../context/flashcard/flashcardContext";
 
 const BrowseSets = (props) => {
     const authContext = useContext(AuthContext);
     const setContext = useContext(SetContext);
+    const flashcardContext = useContext(FlashcardContext);
 
     const { clearCurrentSet } = setContext;
 
     useEffect(() => {
         console.log('Odświeżam');
         authContext.loadUser();
+        //flashcardContext.clearFlashcards();
         // eslint-disable-next-line
     }, []);
 

@@ -12,12 +12,14 @@ import {
     MARK_FLASHCARD,
     UNMARK_FLASHCARD,
     CLEAR_MARKED,
-    SET_MARKED
+    SET_MARKED,
+    GET_SET_FLASHCARDS
 } from "../types";
 
 export default (state, action) => {
     switch (action.type) {
         case GET_FLASHCARDS:
+        case GET_SET_FLASHCARDS:
             return {
                 ...state,
                 flashcards: action.payload.result,
