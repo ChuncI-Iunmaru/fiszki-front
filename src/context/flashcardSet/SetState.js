@@ -12,6 +12,8 @@ import {
     GET_MY_SETS,
     CLEAR_SETS,
     GET_ALL_SETS,
+    FILTER_SETS,
+    CLEAR_SET_FILTER
 } from "../types";
 
 const SetState = props => {
@@ -19,7 +21,8 @@ const SetState = props => {
       sets: [],
       current: null,
       loading: true,
-      error: null
+      error: null,
+      filtered: null
   };
 
   const [state, dispatch] = useReducer(setReducer, initialState);
@@ -101,6 +104,16 @@ const SetState = props => {
 
   // Clear sets
 
+    // Filter contacts
+    const filterSets = text => {
+        dispatch({type: FILTER_SETS, payload: text});
+    };
+
+    // Clear filter
+    const clearSetFilter = () => {
+        dispatch({type: CLEAR_SET_FILTER})
+    };
+
   return (
       <SetContext.Provider
       value={{
@@ -113,7 +126,10 @@ const SetState = props => {
           clearCurrentSet,
           updateSet,
           getMySets,
-          error: state.error
+          error: state.error,
+          filtered: state.filtered,
+          filterSets,
+          clearSetFilter
       }}>
           { props.children}
       </SetContext.Provider>

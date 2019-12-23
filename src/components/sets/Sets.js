@@ -5,7 +5,7 @@ import Spinner from "../layout/Spinner";
 
 const Sets = () => {
     const setContext = useContext(SetContext);
-    const { sets, loading, getMySets } = setContext;
+    const { sets, loading, getMySets, filtered } = setContext;
 
     useEffect(() => {
         getMySets();
@@ -18,9 +18,11 @@ const Sets = () => {
 
     return (
             <div className="grid-2">
-                {sets !== null && !loading
-                    ? sets.map(set => (<SetItem key={set.id} set={set}/>))
-                    : <Spinner/>}
+                { filtered !== null
+                    ? filtered.map(set => (<SetItem key={set.id} set={set}/>))
+                    : sets !== null && !loading
+                        ? sets.map(set => (<SetItem key={set.id} set={set}/>))
+                        : <Spinner/>}
             </div>
     )
 };

@@ -7,7 +7,9 @@ import {
     SET_ERROR,
     GET_MY_SETS,
     CLEAR_SETS,
-    GET_ALL_SETS
+    GET_ALL_SETS,
+    FILTER_SETS,
+    CLEAR_SET_FILTER
 } from "../types";
 
 export default (state, action) => {
@@ -50,6 +52,19 @@ export default (state, action) => {
             return {
                 ...state,
                 error: action.payload
+            };
+        case FILTER_SETS:
+            return {
+                ...state,
+                filtered: state.sets.filter(set => {
+                    const regex = new RegExp(`${action.payload}`, 'gi');
+                    return set.title.match(regex)
+                })
+            };
+        case CLEAR_SET_FILTER:
+            return {
+                ...state,
+                filtered: null
             };
         default:
             return state;

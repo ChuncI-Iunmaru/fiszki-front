@@ -3,6 +3,7 @@ import AuthContext from "../../context/auth/authContext";
 import SetContext from "../../context/flashcardSet/setContext";
 import { withRouter } from 'react-router-dom';
 import Sets from "../sets/Sets";
+import SetFilter from "../sets/SetFilter";
 
 const BrowseSets = (props) => {
     const authContext = useContext(AuthContext);
@@ -25,7 +26,7 @@ const BrowseSets = (props) => {
         <div>
             <div className="grid-2">
                 <button className="btn-primary btn-block" onClick={onNewSet}>Nowy zestaw</button>
-                <input type="text" placeholder="Wyszukaj zestaw..."/>
+                <SetFilter/>
             </div>
             <Sets/>
         </div>

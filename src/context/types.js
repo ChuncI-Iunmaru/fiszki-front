@@ -36,3 +36,5 @@ export const SET_ERROR = 'SET_ERROR';
 export const GET_MY_SETS = 'GET_MY_SETS';
 export const GET_ALL_SETS = 'GET_ALL_SETS';
 export const CLEAR_SETS = 'CLEAR_SETS';
+export const FILTER_SETS = 'FILTER_SETS';
+export const CLEAR_SET_FILTER = 'CLEAR_SET_FILTER';
