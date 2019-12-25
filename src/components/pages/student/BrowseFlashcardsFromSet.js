@@ -1,9 +1,9 @@
 import React, {useContext, useEffect} from 'react';
-import FlashcardContext from "../../context/flashcard/flashcardContext";
-import FlashcardStudentView from "../flashcards/FlashcardStudentView";
-import authContext from "../../context/auth/authContext";
-import Spinner from "../layout/Spinner";
-import SetContext from "../../context/flashcardSet/setContext";
+import FlashcardContext from "../../../context/flashcard/flashcardContext";
+import FlashcardStudentView from "../../flashcards/FlashcardStudentView";
+import authContext from "../../../context/auth/authContext";
+import Spinner from "../../layout/Spinner";
+import SetContext from "../../../context/flashcardSet/setContext";
 
 const BrowseFlashcardsFromSet = () => {
     const flashcardContext = useContext(FlashcardContext);

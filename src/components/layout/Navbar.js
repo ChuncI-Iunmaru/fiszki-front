@@ -31,6 +31,18 @@ const Navbar = ({ title, icon }) => {
       </Fragment>
     );
 
+    const studentLinks = (
+        //Dodać tu też witaj i wyloguj
+        <Fragment>
+            <li>
+                <Link to="/allSets">Zapisz się</Link>
+            </li>
+            <li>
+                <Link to="/mySubscriptions">Moje zestawy</Link>
+            </li>
+        </Fragment>
+    );
+
     const guestLinks = (
         <Fragment>
             <li>
@@ -49,6 +61,7 @@ const Navbar = ({ title, icon }) => {
             </h1>
             <ul>
                 {isAuthenticated ? authLinks : guestLinks}
+                {studentLinks}
             </ul>
         </div>
     )

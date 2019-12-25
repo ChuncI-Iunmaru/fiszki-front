@@ -1,15 +1,13 @@
 import React, { useContext, useEffect } from 'react';
-import AuthContext from "../../context/auth/authContext";
-import SetContext from "../../context/flashcardSet/setContext";
+import AuthContext from "../../../context/auth/authContext";
+import SetContext from "../../../context/flashcardSet/setContext";
 import { withRouter } from 'react-router-dom';
-import Sets from "../sets/Sets";
-import SetFilter from "../sets/SetFilter";
-import FlashcardContext from "../../context/flashcard/flashcardContext";
+import Sets from "../../sets/Sets";
+import SetFilter from "../../sets/SetFilter";
 
-const BrowseSets = (props) => {
+const BrowseMySets = (props) => {
     const authContext = useContext(AuthContext);
     const setContext = useContext(SetContext);
-    const flashcardContext = useContext(FlashcardContext);
 
     const { clearCurrentSet } = setContext;
 
@@ -36,4 +34,4 @@ const BrowseSets = (props) => {
     )
 };
 
-export default withRouter(BrowseSets);
+export default withRouter(BrowseMySets);

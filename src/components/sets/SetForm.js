@@ -61,7 +61,6 @@ const SetForm = (props) => {
         } else if (marked.length === 0) {
             setAlert('Conajmniej 1 fiszka musi być zaznaczona!', 'danger');
         } else {
-            e.preventDefault();
             if (current === null) {
                 addSet(set, marked, user);
             } else {
@@ -93,7 +92,7 @@ const SetForm = (props) => {
         <form onSubmit={onSubmit}>
             <h2 className="text-primary">{current ? 'Edytuj zestaw' : 'Nowy zestaw'}</h2>
             <input type="text" placeholder="Nazwa zestawu..." name="title" value={title} onChange={onChange}/>
-            <input type="password" placeholder="Hasło..." name="password" value={password} onChange={onChange}/>
+            <input type="text" placeholder="Hasło..." name="password" value={password} onChange={onChange}/>
 
             { marked.length === 0 && <span className="badge-danger">Nie zaznaczono żadnych fiszek</span>}
 

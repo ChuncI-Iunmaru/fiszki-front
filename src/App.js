@@ -12,12 +12,15 @@ import setAuthToken from "./utils/setAuthToken";
 import PrivateRoute from "./components/routing/PrivateRoute";
 import FlashcardState from "./context/flashcard/FlashcardState";
 import SetState from "./context/flashcardSet/SetState";
-import BrowseSets from "./components/pages/BrowseSets";
-import EditSet from "./components/pages/EditSet";
-import Subscription from "./components/pages/Subscription";
+import BrowseMySets from "./components/pages/teacher/BrowseMySets";
+import EditSet from "./components/pages/teacher/EditSet";
+import Subscription from "./components/pages/teacher/Subscription";
 import SubscriptionState from "./context/subscription/SubscriptionState";
-import BrowseFlashcardsFromSet from "./components/pages/BrowseFlashcardsFromSet";
-import BrowseMyFlashcards from "./components/pages/BrowseMyFlashcards";
+import BrowseFlashcardsFromSet from "./components/pages/student/BrowseFlashcardsFromSet";
+import BrowseMyFlashcards from "./components/pages/teacher/BrowseMyFlashcards";
+import SubscribeToSet from "./components/pages/student/SubscribeToSet";
+import BrowseAllSets from "./components/pages/student/BrowseAllSets";
+import BrowseMySubscriptions from "./components/pages/student/BrowseMySubscriptions";
 import './App.css';
 
 if (localStorage.token) {
@@ -38,11 +41,14 @@ const App = () => {
                                         <Alerts/>
                                         <Switch>
                                             <PrivateRoute exact path='/' component={Home}/>
-                                            <PrivateRoute exact path='/sets' component={BrowseSets}/>
+                                            <PrivateRoute exact path='/sets' component={BrowseMySets}/>
+                                            <PrivateRoute exact path='/allSets' component={BrowseAllSets}/>
                                             <PrivateRoute exact path='/editSet' component={EditSet}/>
                                             <PrivateRoute exact path='/subscription' component={Subscription}/>
+                                            <PrivateRoute exact path='/mySubscriptions' component={BrowseMySubscriptions}/>
                                             <PrivateRoute exact path='/myFlashcards' component={BrowseMyFlashcards}/>
                                             <PrivateRoute exact path='/setFlashcards' component={BrowseFlashcardsFromSet}/>
+                                            <PrivateRoute exact path='/subscribeForm' component={SubscribeToSet}/>
                                             <Route exact path='/about' component={About}/>
                                             <Route exact path='/register' component={Register}/>
                                             <Route exact path='/login' component={Login}/>

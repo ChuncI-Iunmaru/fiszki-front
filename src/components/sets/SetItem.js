@@ -3,12 +3,15 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import SetContext from "../../context/flashcardSet/setContext";
 import FlashcardContext from "../../context/flashcard/flashcardContext";
+import SubscriptionContext from "../../context/subscription/subscriptionContext";
 
-const SetItem = ({ set, history, studentView = false }) => {
+const SetItem = ({ set, history, studentView = false, subscribedView = false }) => {
     const setContext = useContext(SetContext);
     const flashcardContext = useContext(FlashcardContext);
-    const { clearMarked, setMarked } = flashcardContext;
+    const subscriptionContext = useContext(SubscriptionContext);
 
+    const { subscriptions } = subscriptionContext;
+    const { clearMarked, setMarked } = flashcardContext;
     const { deleteSet, setCurrentSet, clearCurrentSet } = setContext;
     const {id, title, dailyAmount, testQuestionsNum, testTime, testAttempts, testAccessible, flashcards } = set;
 
@@ -38,9 +41,46 @@ const SetItem = ({ set, history, studentView = false }) => {
         history.push('/setFlashcards');
     };
 
+    const onJoin = () => {
+        setCurrentSet(set);
+        history.push('/subscribeForm');
+    };
+
+    const renderButtons = () => {
+        if (subscribedView)
+            return (
+                <p>
+                    <button className="btn btn-primary btn-sm" onClick={onFlashcards}>Fiszki</button>
+                    <button className="btn btn-success btn-sm">Ucz się</button>
+                    <button className="btn btn-dark btn-sm">Test</button>
+                </p>
+            );
+        if (studentView) {
+            if (subscriptions.some(subscription => subscription.flashcardSet.id === id)) {
+                return (
+                    <p>
+                        <button className="btn btn-white btn-sm">Już zapisano</button>
+                    </p>
+                );
+            } else {
+                return (
+                    <p>
+                        <button className="btn btn-success btn-sm" onClick={onJoin}>Dołącz</button>
+                    </p>
+                );
+            }
+        } else return (
+            <p>
+                <button className="btn btn-dark btn-sm" onClick={onEdit}>Edytuj</button>
+                <button className="btn btn-danger btn-sm" onClick={onDelete}>Usuń</button>
+                <button className="btn btn-primary btn-sm" onClick={onSubscribers}>Uczniowie</button>
+            </p>
+        );
+    };
+
     return (
-        <div className="card bg-light">
-            <h3 className="text-primary text-left">{title}</h3>
+        <div className={subscribedView ? "card bg-white" : "card bg-light"}>
+            <h3 className="text-primary text-left ">{title}</h3>
             <ul className="list">
                 <li><span className="badge-dark">Fiszki: {flashcards.length}</span></li>
                 <li><span className="badge-light">Dziennie: {dailyAmount}</span></li>
@@ -56,22 +96,15 @@ const SetItem = ({ set, history, studentView = false }) => {
                     ? testAttempts
                     : (<i className="fas fa-infinity"></i>)}</li>
             </ul>
-            {studentView
-                ? <p>
-                    <button className="btn btn-primary btn-sm" onClick={onFlashcards}>Fiszki</button>
-                </p>
-                : <p>
-                    <button className="btn btn-dark btn-sm" onClick={onEdit}>Edytuj</button>
-                    <button className="btn btn-danger btn-sm" onClick={onDelete}>Usuń</button>
-                    <button className="btn btn-primary btn-sm" onClick={onSubscribers}>Uczniowie</button>
-                </p>}
+            {renderButtons()}
         </div>
     )
 };
 
 SetItem.propTypes = {
     set: PropTypes.object.isRequired,
-    studentView: PropTypes.bool
+    studentView: PropTypes.bool,
+    subscribedView: PropTypes.bool
 };
 
 export default withRouter(SetItem);

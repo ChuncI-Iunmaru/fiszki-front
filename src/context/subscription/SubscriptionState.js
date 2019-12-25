@@ -1,51 +1,72 @@
 import React, { useReducer } from 'react';
 import SubscriptionContext from "./subscriptionContext";
 import subscriptionReducer from "./subscriptionReducer";
+import axios from 'axios';
+import {
+    SUBSCRIBE_TO_SET, SUBSCRIPTION_ERROR,
+    UNSUBSCRIBE_SET,
+    GET_MY_SUBSCRIPTIONS
+} from "../types";
 
 const SubscriptionState = props => {
     const initialState = {
-        subscriptions: [
-            {
-                id: 1,
-                user: {
-                    id: 1,
-                    username: "testowy",
-                    email: "test@gmail.com",
-                    role: "user"
-                },
-                flashcardSet: {
-                    id: 2,
-                    creator: 1,
-                    title: "Edytowany testowy zestaw",
-                    dailyAmount: 1,
-                    testQuestionsNum: 10,
-                    testTime: 0,
-                    testAttempts: 0,
-                    testAccessible: "ALWAYS",
-                    flashcards: [ 1,2],
-                    password: "$2a$10$Fcbi1zMwjgXyH/9hL17jo.OXKAiKTZ6g4xKQgV3uPw1Ftjf2vcTjG"
-                },
-                learnedFlashcards: [
-                    1,
-                    2,
-                ],
-                scores: [
-                    {
-                        id: 1,
-                        score: 88,
-                        date: "2019-11-27"
-                    }
-                ],
-                subscriptionDate: "2019-11-26T14:42:48.000+0000"
-            }
-        ]
+        subscriptions: [],
+        loading: true,
+        error: null
     };
 
     const [state, dispatch] = useReducer(subscriptionReducer, initialState);
 
+    // Get my subscriptions (for current user in token)
+    const getMySubscriptions = async () => {
+        try {
+            const res = await axios.get('/subscription/user');
+            dispatch({ type: GET_MY_SUBSCRIPTIONS, payload: res.data});
+        } catch (e) {
+            dispatch({type: SUBSCRIPTION_ERROR, payload: e.response.data.message});
+        }
+    };
+
+    // Subscribe to set (Add subscription)
+    const subscribe = async (user, set) => {
+        const subscription = {
+            user: user,
+            flashcardSet: set,
+            learnedFlashcards: [0],
+            scores: [],
+            subscriptionDate: ''
+        };
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        try {
+            const res = await axios.post('/subscription', subscription, config);
+            dispatch({ type: SUBSCRIBE_TO_SET, payload: res.data});
+        } catch (e) {
+            dispatch({type: SUBSCRIPTION_ERROR, payload: e.response.data.message});
+        }
+    };
+
+    // Unsubscribe from set (Delete subscription)
+    const unsubscribe = async id => {
+        try {
+            const res = await axios.delete(`/subscription/${id}`);
+            dispatch({ type: UNSUBSCRIBE_SET, payload: id});
+        } catch (e) {
+            dispatch({type: SUBSCRIPTION_ERROR, payload: e.response.data.message});
+        }
+    };
+
     return (
         <SubscriptionContext.Provider value={{
-            subscriptions: state.subscriptions
+            subscriptions: state.subscriptions,
+            loading: state.loading,
+            error: state.error,
+            getMySubscriptions,
+            subscribe,
+            unsubscribe
         }}>
             {props.children}
         </SubscriptionContext.Provider>
