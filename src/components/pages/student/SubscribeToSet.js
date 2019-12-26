@@ -26,11 +26,16 @@ const SubscribeToSet = (props) => {
     const onSubmit = e => {
         e.preventDefault();
         console.log(password.current.value);
-        if (password.current.value === current.password) {
+        if (current.password !== '') {
+            if (password.current.value === current.password) {
+                subscriptionContext.subscribe(user, current);
+                props.history.push('/mySubscriptions');
+            } else {
+                setAlert('Wprowadż prawidłowe hasło', 'danger');
+            }
+        } else {
             subscriptionContext.subscribe(user, current);
             props.history.push('/mySubscriptions');
-        } else {
-            setAlert('Wprowadż prawidłowe hasło', 'danger');
         }
     };
 
@@ -39,7 +44,7 @@ const SubscribeToSet = (props) => {
             <h3 className="text-primary">{current.title}</h3>
             <form onSubmit={onSubmit}>
                 { current.password === ''
-                    ? <h4 className="text-dark">Test nie jest zabezpieczony hasłem</h4>
+                    ? <h4 className="text-dark">Zestaw nie jest zabezpieczony hasłem</h4>
                     : <input ref={password} type="password" placeholder="Podaj hasło..."/>}
                 <input type="submit" className="btn btn-success btn-block" value="Zapisz się"/>
             </form>

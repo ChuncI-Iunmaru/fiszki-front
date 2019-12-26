@@ -43,6 +43,7 @@ export default (state, action) => {
                 current: null
             };
         case GET_MY_SETS:
+        case GET_ALL_SETS:
             return {
                 ...state,
                 sets: action.payload.result,

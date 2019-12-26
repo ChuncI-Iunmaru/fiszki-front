@@ -92,7 +92,16 @@ const SetState = props => {
         dispatch({type: CLEAR_CURRENT_SET})
     };
 
-  // Get sets
+  // Get all sets
+    const getAllSets = async () => {
+        try {
+            const res = await axios.get('/flashcard_set/all_sets');
+            dispatch({ type: GET_ALL_SETS, payload: res.data});
+        } catch (e) {
+            dispatch({type: SET_ERROR, payload: e.response.data.message});
+        }
+    };
+
     const getMySets = async () => {
         try {
             const res = await axios.get('/flashcard_set');
@@ -129,7 +138,8 @@ const SetState = props => {
           error: state.error,
           filtered: state.filtered,
           filterSets,
-          clearSetFilter
+          clearSetFilter,
+          getAllSets
       }}>
           { props.children}
       </SetContext.Provider>

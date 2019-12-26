@@ -6,10 +6,11 @@ import PropTypes from 'prop-types'
 
 const Sets = ({ studentView = false}) => {
     const setContext = useContext(SetContext);
-    const { sets, loading, getMySets, filtered } = setContext;
+    const { sets, loading, getMySets, filtered, getAllSets } = setContext;
 
     useEffect(() => {
-        getMySets();
+        if (studentView) getAllSets();
+        else getMySets();
         // eslint-disable-next-line
     }, []);
 

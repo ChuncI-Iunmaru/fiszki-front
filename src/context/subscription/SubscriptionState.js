@@ -32,7 +32,8 @@ const SubscriptionState = props => {
         const subscription = {
             user: user,
             flashcardSet: set,
-            learnedFlashcards: [0],
+            learnedFlashcards: [],
+            secondBox: [],
             scores: [],
             subscriptionDate: ''
         };

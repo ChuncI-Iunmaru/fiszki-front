@@ -12,6 +12,12 @@ export default (state, action) => {
                 subscriptions: action.payload.result,
                 loading: false
             };
+        case SUBSCRIBE_TO_SET:
+            return {
+                ...state,
+                subscriptions: [...state.subscriptions, action.payload.result],
+                loading: false
+            };
         case UNSUBSCRIBE_SET:
             return {
                 ...state,
