@@ -21,6 +21,8 @@ import BrowseMyFlashcards from "./components/pages/teacher/BrowseMyFlashcards";
 import SubscribeToSet from "./components/pages/student/SubscribeToSet";
 import BrowseAllSets from "./components/pages/student/BrowseAllSets";
 import BrowseMySubscriptions from "./components/pages/student/BrowseMySubscriptions";
+import StudySessionPage from "./components/pages/student/StudySessionPage";
+import StudyState from "./context/study/StudyState";
 import './App.css';
 
 if (localStorage.token) {
@@ -34,29 +36,31 @@ const App = () => {
                 <SetState>
                     <FlashcardState>
                         <SubscriptionState>
-                            <Router>
-                                <Fragment>
-                                    <Navbar/>
-                                    <div className="container">
-                                        <Alerts/>
-                                        <Switch>
-                                            <PrivateRoute exact path='/' component={Home}/>
-                                            <PrivateRoute exact path='/sets' component={BrowseMySets}/>
-                                            <PrivateRoute exact path='/allSets' component={BrowseAllSets}/>
-                                            <PrivateRoute exact path='/editSet' component={EditSet}/>
-                                            <PrivateRoute exact path='/subscription' component={Subscription}/>
-                                            <PrivateRoute exact path='/mySubscriptions' component={BrowseMySubscriptions}/>
-                                            <PrivateRoute exact path='/myFlashcards' component={BrowseMyFlashcards}/>
-                                            <PrivateRoute exact path='/setFlashcards' component={BrowseFlashcardsFromSet}/>
-                                            <PrivateRoute exact path='/subscribeForm' component={SubscribeToSet}/>
-                                            <Route exact path='/about' component={About}/>
-                                            <Route exact path='/register' component={Register}/>
-                                            <Route exact path='/login' component={Login}/>
-                                        </Switch>
-                                    </div>
-                                </Fragment>
-                            </Router>
-
+                            <StudyState>
+                                <Router>
+                                    <Fragment>
+                                        <Navbar/>
+                                        <div className="container">
+                                            <Alerts/>
+                                            <Switch>
+                                                <PrivateRoute exact path='/' component={Home}/>
+                                                <PrivateRoute exact path='/sets' component={BrowseMySets}/>
+                                                <PrivateRoute exact path='/allSets' component={BrowseAllSets}/>
+                                                <PrivateRoute exact path='/editSet' component={EditSet}/>
+                                                <PrivateRoute exact path='/subscription' component={Subscription}/>
+                                                <PrivateRoute exact path='/mySubscriptions' component={BrowseMySubscriptions}/>
+                                                <PrivateRoute exact path='/myFlashcards' component={BrowseMyFlashcards}/>
+                                                <PrivateRoute exact path='/setFlashcards' component={BrowseFlashcardsFromSet}/>
+                                                <PrivateRoute exact path='/subscribeForm' component={SubscribeToSet}/>
+                                                <PrivateRoute exact path='/studySession' component={StudySessionPage}/>
+                                                <Route exact path='/about' component={About}/>
+                                                <Route exact path='/register' component={Register}/>
+                                                <Route exact path='/login' component={Login}/>
+                                            </Switch>
+                                        </div>
+                                    </Fragment>
+                                </Router>
+                            </StudyState>
                         </SubscriptionState>
                     </FlashcardState>
                 </SetState>
