@@ -51,8 +51,6 @@ const SetItem = ({ set, history, studentView = false, subscribedView = false }) 
             return (
                 <p>
                     <button className="btn btn-primary btn-sm" onClick={onFlashcards}>Fiszki</button>
-                    <button className="btn btn-success btn-sm">Ucz się</button>
-                    <button className="btn btn-dark btn-sm">Test</button>
                 </p>
             );
         if (studentView) {

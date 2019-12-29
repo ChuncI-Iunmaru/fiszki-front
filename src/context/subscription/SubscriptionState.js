@@ -5,14 +5,17 @@ import axios from 'axios';
 import {
     SUBSCRIBE_TO_SET, SUBSCRIPTION_ERROR,
     UNSUBSCRIBE_SET,
-    GET_MY_SUBSCRIPTIONS
+    GET_MY_SUBSCRIPTIONS,
+    SET_CURRENT_SUB_ID,
+    CLEAR_CURRENT_SUB_ID
 } from "../types";
 
 const SubscriptionState = props => {
     const initialState = {
         subscriptions: [],
         loading: true,
-        error: null
+        error: null,
+        currentId: null
     };
 
     const [state, dispatch] = useReducer(subscriptionReducer, initialState);
@@ -60,6 +63,16 @@ const SubscriptionState = props => {
         }
     };
 
+    // Set current subscription id
+    const setCurrentId = id => {
+        dispatch({ type: SET_CURRENT_SUB_ID, payload:id})
+    };
+
+    // Clear current subscription id
+    const clearCurrentId = () => {
+        dispatch({ type: CLEAR_CURRENT_SUB_ID})
+    };
+
     return (
         <SubscriptionContext.Provider value={{
             subscriptions: state.subscriptions,
@@ -67,7 +80,10 @@ const SubscriptionState = props => {
             error: state.error,
             getMySubscriptions,
             subscribe,
-            unsubscribe
+            unsubscribe,
+            currentId: state.currentId,
+            setCurrentId,
+            clearCurrentId
         }}>
             {props.children}
         </SubscriptionContext.Provider>
