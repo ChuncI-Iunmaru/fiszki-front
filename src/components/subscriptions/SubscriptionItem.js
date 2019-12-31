@@ -11,7 +11,7 @@ const SubscriptionItem = ({ subscription, subscribedView = false, history }) => 
     const studyContext = useContext(StudyContext);
 
     const {setCurrentId, clearCurrentId, unsubscribe} = subscriptionContext;
-    const { getStudySession } = studyContext;
+    const { getStudySession, getFinalTest, clearTestResults } = studyContext;
 
     const { id, user,  flashcardSet, learnedFlashcards, scores, subscriptionDate} = subscription;
 
@@ -21,6 +21,7 @@ const SubscriptionItem = ({ subscription, subscribedView = false, history }) => 
     };
 
     const onStudy = () => {
+        clearTestResults();
         setCurrentId(id);
         // Pobierz i załaduj sesję
         getStudySession(id);
@@ -28,13 +29,24 @@ const SubscriptionItem = ({ subscription, subscribedView = false, history }) => 
         history.push("/studySession");
     };
 
+    const onTest = () => {
+        clearTestResults();
+        setCurrentId(id);
+        getFinalTest(id);
+        history.push("/finalTest");
+    };
+
+    let progress = (learnedFlashcards.length/flashcardSet.flashcards.length*100);
+
     return (
         <div className="card bg-light">
             {subscribedView && <SetItem set={flashcardSet} subscribedView={true}/>}
             { subscribedView &&
             <p>
-                <button className="btn btn-success btn-sm" onClick={onStudy}>Ucz się</button>
-                <button className="btn btn-dark btn-sm">Test</button>
+                {progress !==100
+                    ? <button className="btn btn-success btn-sm" onClick={onStudy}>Ucz się</button>
+                    : <button className="btn btn-light btn-sm">Nauka zakończona</button>}
+                <button className="btn btn-dark btn-sm" onClick={onTest}>Test</button>
                 <button className="btn btn-sm btn-danger"  style={{float: 'right'}} onClick={onUnsub}>Wypisz się</button>
             </p>
             }
@@ -43,9 +55,9 @@ const SubscriptionItem = ({ subscription, subscribedView = false, history }) => 
             <h4 className="text-dark text-left">Zapisany: {getSubscriprionDateFromString(subscriptionDate)}</h4>
             <h4 className="text-dark text-left">
                 Postęp nauki: {learnedFlashcards.length}/{flashcardSet.flashcards.length}{' '}
-                {(learnedFlashcards.length/flashcardSet.flashcards.length*100) === 100
-                    ? <span style={{ color: 'green'}}>({learnedFlashcards.length/flashcardSet.flashcards.length*100})%</span>
-                    : <span>({learnedFlashcards.length/flashcardSet.flashcards.length*100})%</span>}
+                { progress=== 100
+                    ? <span style={{ color: 'green'}}>({progress})%</span>
+                    : <span>({progress})%</span>}
             </h4>
             <h4 className="text-dark text-left">Wyniki testów: </h4>
         </div>

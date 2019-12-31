@@ -1,4 +1,13 @@
-import {GET_STUDY_SESSION, STUDY_SESSION_ERROR, CLEAR_STUDY_SESSION, GET_SESSION_TEST_RESULTS, CLEAR_TEST_RESULTS} from "../types";
+import {
+    GET_STUDY_SESSION,
+    STUDY_SESSION_ERROR,
+    CLEAR_STUDY_SESSION,
+    GET_SESSION_TEST_RESULTS,
+    CLEAR_TEST_RESULTS,
+    GET_FINAL_TEST,
+    GET_FINAL_TEST_RESULTS,
+    CLEAR_FINAL_TEST
+} from "../types";
 
 export default (state, action) => {
     switch (action.type) {
@@ -16,13 +25,37 @@ export default (state, action) => {
         case CLEAR_STUDY_SESSION:
             return {
                 ...state,
-                currentSession: null
+                currentSession: null,
+                loading: true
             };
         case GET_SESSION_TEST_RESULTS:
             return {
                 ...state,
                 testResults: action.payload.result,
                 loading: false
+            };
+        case CLEAR_TEST_RESULTS:
+            return {
+                ...state,
+                testResults: null
+            };
+        case GET_FINAL_TEST:
+            return {
+                ...state,
+                currentTest: action.payload.result,
+                loading: false
+            };
+        case GET_FINAL_TEST_RESULTS:
+            return {
+                ...state,
+                testResults: action.payload.result,
+                loading: false
+            };
+        case CLEAR_FINAL_TEST:
+            return {
+                ...state,
+                currentTest: null,
+                loading: true
             };
         default:
             return {

@@ -23,6 +23,7 @@ import BrowseAllSets from "./components/pages/student/BrowseAllSets";
 import BrowseMySubscriptions from "./components/pages/student/BrowseMySubscriptions";
 import StudySessionPage from "./components/pages/student/StudySessionPage";
 import StudyState from "./context/study/StudyState";
+import FinalTestPage from "./components/pages/student/FinalTestPage";
 import './App.css';
 
 if (localStorage.token) {
@@ -53,6 +54,7 @@ const App = () => {
                                                 <PrivateRoute exact path='/setFlashcards' component={BrowseFlashcardsFromSet}/>
                                                 <PrivateRoute exact path='/subscribeForm' component={SubscribeToSet}/>
                                                 <PrivateRoute exact path='/studySession' component={StudySessionPage}/>
+                                                <PrivateRoute exact path='/finalTest' component={FinalTestPage}/>
                                                 <Route exact path='/about' component={About}/>
                                                 <Route exact path='/register' component={Register}/>
                                                 <Route exact path='/login' component={Login}/>
