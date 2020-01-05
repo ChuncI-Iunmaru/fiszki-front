@@ -5,18 +5,21 @@ import StudyTest from "../../study/StudyTest";
 import StudyContext from "../../../context/study/studyContext";
 import TestResultsList from "../../study/TestResultsList";
 import Spinner from "../../layout/Spinner";
+import SubscriptionContext from "../../../context/subscription/subscriptionContext";
 
 const StudySessionPage = () => {
     const authContext = useContext(AuthContext);
     const studyContext = useContext(StudyContext);
+    const subscriptionContext = useContext(SubscriptionContext);
 
-    const { testResults, currentSession, loading } = studyContext;
+    const { testResults, currentSession, loading, getStudySession } = studyContext;
 
     const [showFlashcards, setShowFlashcards] = useState(true);
 
     useEffect(() => {
         console.log('Odświeżam');
         authContext.loadUser();
+        getStudySession(subscriptionContext.currentId);
         //Jeżeli nie ma currentSession redirect do zapisanych zestawów
         // eslint-disable-next-line
     }, []);
