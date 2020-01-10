@@ -16,6 +16,7 @@ const TestTimer = ({time, onCountdownEnd}) => {
     useEffect(() => {
         set(time * 60);
         toggle();
+        // eslint-disable-next-line
     }, []);
 
     useEffect(() => {
@@ -29,6 +30,7 @@ const TestTimer = ({time, onCountdownEnd}) => {
             onCountdownEnd();
         }
         return () => clearInterval(interval);
+        // eslint-disable-next-line
     }, [isActive, seconds]);
 
 

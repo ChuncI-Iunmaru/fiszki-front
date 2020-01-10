@@ -12,7 +12,7 @@ const StudySessionPage = () => {
     const studyContext = useContext(StudyContext);
     const subscriptionContext = useContext(SubscriptionContext);
 
-    const { testResults, currentSession, loading, getStudySession } = studyContext;
+    const { testResults, loading, getStudySession } = studyContext;
 
     const [showFlashcards, setShowFlashcards] = useState(true);
 
@@ -20,7 +20,6 @@ const StudySessionPage = () => {
         console.log('Odświeżam');
         authContext.loadUser();
         getStudySession(subscriptionContext.currentId);
-        //Jeżeli nie ma currentSession redirect do zapisanych zestawów
         // eslint-disable-next-line
     }, []);
 

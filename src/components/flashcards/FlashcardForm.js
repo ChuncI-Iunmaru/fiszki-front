@@ -24,6 +24,7 @@ const FlashcardForm = () => {
                 userId: 0
             });
         }
+        // eslint-disable-next-line
     }, [flashcardContext]);
 
     const [flashcard, setFlashcard] = useState({

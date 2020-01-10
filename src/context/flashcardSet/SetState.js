@@ -54,6 +54,7 @@ const SetState = props => {
   // Delete set
     const deleteSet = async id => {
         try {
+            // eslint-disable-next-line no-unused-vars
             const res = await axios.delete(`/flashcard_set/${id}`);
             dispatch({ type: DELETE_SET, payload: id});
         } catch (e) {
@@ -123,6 +124,11 @@ const SetState = props => {
         dispatch({type: CLEAR_SET_FILTER})
     };
 
+    // Clear sets
+    const clearSets = () => {
+        dispatch({type: CLEAR_SETS});
+    };
+
   return (
       <SetContext.Provider
       value={{
@@ -139,7 +145,8 @@ const SetState = props => {
           filtered: state.filtered,
           filterSets,
           clearSetFilter,
-          getAllSets
+          getAllSets,
+          clearSets
       }}>
           { props.children}
       </SetContext.Provider>

@@ -3,16 +3,19 @@ import PropTypes from 'prop-types';
 import {Link} from "react-router-dom";
 import authContext from "../../context/auth/authContext";
 import FlashcardContext from "../../context/flashcard/flashcardContext";
+import SetContext from "../../context/flashcardSet/setContext";
 
 const Navbar = ({title, icon}) => {
     const AuthContext = useContext(authContext);
     const flashcardContext = useContext(FlashcardContext);
+    const setContext = useContext(SetContext);
 
     const {isAuthenticated, logout, user} = AuthContext;
     const {clearFlashcards} = flashcardContext;
 
     const onLogout = () => {
         logout();
+        setContext.clearSets();
         clearFlashcards();
     };
 

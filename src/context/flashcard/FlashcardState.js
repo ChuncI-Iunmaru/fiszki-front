@@ -1,5 +1,4 @@
 import React, { useReducer } from 'react';
-import uuid from 'uuid';
 import FlashcardContext from "./flashcardContext";
 import flashcardReducer from "./flashcardReducer";
 import axios from 'axios';
@@ -85,6 +84,8 @@ const FlashcardState = props => {
     // Delete flashcard
     const deleteFlashcard = async id => {
         try {
+            //Tak powinno być raczej
+            // eslint-disable-next-line no-unused-vars
             const res = await axios.delete(`/flashcards/${id}`);
             dispatch({ type: DELETE_FLASHCARD, payload: id});
         } catch (e) {

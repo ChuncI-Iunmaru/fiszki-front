@@ -1,4 +1,5 @@
 const formatDate = (text) => {
+    // eslint-disable-next-line no-useless-escape
     const pattern = new RegExp("([0-9]{4})[\-/ \.]([0-9]{2})[\-/ \.]([0-9]{2})");
     if (pattern.test(text)) {
         const results = pattern.exec(text);

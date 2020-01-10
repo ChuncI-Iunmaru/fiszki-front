@@ -67,6 +67,12 @@ export default (state, action) => {
                 ...state,
                 filtered: null
             };
+        case CLEAR_SETS:
+            return {
+                ...state,
+                sets: null,
+                loading: true
+            };
         default:
             return state;
     }

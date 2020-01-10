@@ -48,9 +48,10 @@ const SetForm = (props) => {
             });
             clearMarked();
         }
+        // eslint-disable-next-line
     }, [setContext, current]);
 
-    const {creator, title, dailyAmount, testQuestionsNum, testTime, testAttempts, testAccessible, flashcards, password} = set;
+    const {title, dailyAmount, testQuestionsNum, testTime, testAttempts, testAccessible, password} = set;
 
     const onChange = e => setSet({...set, [e.target.name]: e.target.value});
 

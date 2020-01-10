@@ -8,7 +8,7 @@ const FinalTest = () => {
     const studyContext = useContext(StudyContext);
     const subscriptionContext = useContext(SubscriptionContext);
 
-    const {currentTest, getFinalTestResults, clearTest, loading} = studyContext;
+    const {currentTest, getFinalTestResults, clearTest} = studyContext;
 
     const {questions, time} = currentTest;
 

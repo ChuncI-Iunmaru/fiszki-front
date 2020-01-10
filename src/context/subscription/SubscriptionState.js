@@ -56,6 +56,7 @@ const SubscriptionState = props => {
     // Unsubscribe from set (Delete subscription)
     const unsubscribe = async id => {
         try {
+            // eslint-disable-next-line no-unused-vars
             const res = await axios.delete(`/subscription/${id}`);
             dispatch({ type: UNSUBSCRIBE_SET, payload: id});
         } catch (e) {

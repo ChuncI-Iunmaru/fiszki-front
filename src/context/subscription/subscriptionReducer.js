@@ -34,6 +34,11 @@ export default (state, action) => {
                 ...state,
                 currentId: null
             };
+        case SUBSCRIPTION_ERROR:
+            return {
+                ...state,
+                error: action.payload
+            };
         default:
             return {
                 ...state

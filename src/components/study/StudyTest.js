@@ -7,7 +7,7 @@ const StudyTest = () => {
     const studyContext = useContext(StudyContext);
     const subscriptionContext = useContext(SubscriptionContext);
 
-    const { currentSession, getStudyTestResults, clearCurrentSession } = studyContext;
+    const { currentSession, getStudyTestResults} = studyContext;
 
     const {firstBox, secondBox, thirdBox} = currentSession;
 
