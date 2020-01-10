@@ -5,7 +5,7 @@ import Spinner from "../../layout/Spinner";
 import React, {useEffect, useContext} from "react";
 import StudyContext from "../../../context/study/studyContext";
 import AlertContext from "../../../context/alert/alertContext";
-import getSubscriprionDateFromString from "../../../utils/getSubscriprionDateFromString";
+import formatDate from "../../../utils/formatDate";
 
 const BrowseMySubscriptions = () => {
     const authContext = useContext(AuthContext);
@@ -27,7 +27,7 @@ const BrowseMySubscriptions = () => {
         const formattedDate = today.getDate().toLocaleString('en', {minimumIntegerDigits:2, maximumSignificantDigits:2}) + "." + today.getMonth()+1 + "." + today.getFullYear();
         subscriptions.forEach(sub => {
             let progress = (sub.learnedFlashcards.length/sub.flashcardSet.flashcards.length*100);
-            if (formattedDate !== getSubscriprionDateFromString(sub.subscriptionDate) && progress !== 100) {
+            if (formattedDate !== formatDate(sub.subscriptionDate) && progress !== 100) {
                 alertContext.setAlert(`Możesz uczyć się z zestawu ${sub.flashcardSet.title}!`, "primary", 10000)
             }
         });

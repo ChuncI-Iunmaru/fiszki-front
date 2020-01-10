@@ -1,4 +1,4 @@
-const getSubscriprionDateFromString = (text) => {
+const formatDate = (text) => {
     const pattern = new RegExp("([0-9]{4})[\-/ \.]([0-9]{2})[\-/ \.]([0-9]{2})");
     if (pattern.test(text)) {
         const results = pattern.exec(text);
@@ -6,4 +6,4 @@ const getSubscriprionDateFromString = (text) => {
     } else return 'Not a valid date';
 };
 
-export default getSubscriprionDateFromString;
+export default formatDate;

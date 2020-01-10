@@ -81,7 +81,7 @@ const SetItem = ({ set, history, studentView = false, subscribedView = false }) 
             <h3 className="text-primary text-left ">{title}</h3>
             <ul className="list">
                 <li><span className="badge-dark">Fiszki: {flashcards.length}</span></li>
-                <li><span className="badge-light">Dziennie: {dailyAmount}</span></li>
+                <li><span className="badge-light">W sesji: {dailyAmount}</span></li>
             </ul>
             <h4 className="text-dark text-left">Test:</h4>
             <ul className="list grid-2">

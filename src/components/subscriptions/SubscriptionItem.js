@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import getSubscriprionDateFromString from "../../utils/getSubscriprionDateFromString";
+import formatDate from "../../utils/formatDate";
 import PropTypes from 'prop-types';
 import SetItem from "../sets/SetItem";
 import SubscriptionContext from "../../context/subscription/subscriptionContext";
@@ -51,7 +51,7 @@ const SubscriptionItem = ({ subscription, subscribedView = false, history }) => 
             //Jeżeli włączone, sprawdź datę => jeżeli inna od ostatniej sesji, włącz guzik,
             const today = new Date();
             const formattedDate = today.getDate().toLocaleString('en', {minimumIntegerDigits:2, maximumSignificantDigits:2}) + "." + today.getMonth()+1 + "." + today.getFullYear();
-            if (formattedDate !== getSubscriprionDateFromString(subscriptionDate)) {
+            if (formattedDate !== formatDate(subscriptionDate)) {
                 return <button className="btn btn-success btn-sm" onClick={onStudy}>Ucz się</button>
             } else return <button className="btn btn-light btn-sm">Sesja skończona</button>;
             // inaczej daj koniec nauki na dziś
@@ -81,7 +81,7 @@ const SubscriptionItem = ({ subscription, subscribedView = false, history }) => 
             }
             <br></br>
             <h3 className="text-primary text-center">{!subscribedView && user.username}</h3>
-            <h4 className="text-dark text-left">Ostatnia sesja: {getSubscriprionDateFromString(subscriptionDate)}</h4>
+            <h4 className="text-dark text-left">Ostatnia sesja: {formatDate(subscriptionDate)}</h4>
             <h4 className="text-dark text-left">
                 Przejrzane fiszki: {secondBox.length}/{flashcards.length}{' '}
                 { viewed=== 100
@@ -96,7 +96,7 @@ const SubscriptionItem = ({ subscription, subscribedView = false, history }) => 
             </h4>
             <h4 className="text-dark text-left">Wyniki testów: </h4>
             <ul className="list">
-                {scores.map(score => <li>{score.score}%</li>)}
+                {scores.map(score => <li>{formatDate(score.testDate)}: {score.score}%</li>)}
             </ul>
         </div>
     )
