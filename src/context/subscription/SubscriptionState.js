@@ -1,13 +1,14 @@
-import React, { useReducer } from 'react';
+import React, {useReducer} from 'react';
 import SubscriptionContext from "./subscriptionContext";
 import subscriptionReducer from "./subscriptionReducer";
 import axios from 'axios';
 import {
-    SUBSCRIBE_TO_SET, SUBSCRIPTION_ERROR,
-    UNSUBSCRIBE_SET,
+    CLEAR_CURRENT_SUB_ID,
     GET_MY_SUBSCRIPTIONS,
     SET_CURRENT_SUB_ID,
-    CLEAR_CURRENT_SUB_ID
+    SUBSCRIBE_TO_SET,
+    SUBSCRIPTION_ERROR,
+    UNSUBSCRIBE_SET
 } from "../types";
 
 const SubscriptionState = props => {
@@ -32,9 +33,20 @@ const SubscriptionState = props => {
 
     // Subscribe to set (Add subscription)
     const subscribe = async (user, set) => {
+        // TODO Poprawić faktycznie a nie
+        // Obejście błędu serializacji
+        let fixedSet = set;
+        if (typeof set.creator !== 'object' && set.creator !== null) {
+            fixedSet.creator = {
+                id: set.creator,
+                username: "",
+                email: "",
+                role: "teacher"
+            };
+        }
         const subscription = {
             user: user,
-            flashcardSet: set,
+            flashcardSet: fixedSet,
             learnedFlashcards: [],
             secondBox: [],
             scores: [],
