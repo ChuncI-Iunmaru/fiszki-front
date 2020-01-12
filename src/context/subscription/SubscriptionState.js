@@ -33,7 +33,7 @@ const SubscriptionState = props => {
 
     // Subscribe to set (Add subscription)
     const subscribe = async (user, set) => {
-        // TODO Poprawić faktycznie a nie
+        // TODO Poprawić faktycznie w backend resolver a nie takie
         // Obejście błędu serializacji
         let fixedSet = set;
         if (typeof set.creator !== 'object' && set.creator !== null) {

@@ -1,4 +1,5 @@
 import React from 'react';
+import checkLinkType from "../../utils/getLinkType";
 
 const TestQuestion = ({ testQuestion, onAnswerChange}) => {
 
@@ -8,9 +9,24 @@ const TestQuestion = ({ testQuestion, onAnswerChange}) => {
         onAnswerChange(flashcardId, e.target.value);
     };
 
+    //TODO wyciągnąć to jakoś - praktycznie ta sama funkcja w trzech miejscach
+    const renderFrontText = (text) => {
+        const result = checkLinkType(text);
+        switch (result.type) {
+            case 'image': return (<img src={text} alt="Obrazek"/>);
+            case 'audio': return (
+                <audio controls>
+                    <source src={text} type={`audio/${result.extension}`}/>
+                </audio>
+            );
+            case 'unsupported': return (<a href={text}>{text}</a>);
+            default: return (<h3 className="text-dark text-left"> {text} </h3>);
+        }
+    };
+
     return (
       <form className="card bg-light">
-          <h4 className="text-primary">{question}:</h4>
+          {renderFrontText(question)}
           {answers.map(answer =>
               <div className="form-group" key={answer}>
                   <input type="radio" value={answer} checked={givenAnswer === answer} onChange={onChange}/>{' '}{answer}
