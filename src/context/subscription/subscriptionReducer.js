@@ -1,11 +1,12 @@
 import {
     SUBSCRIBE_TO_SET, SUBSCRIPTION_ERROR,
     UNSUBSCRIBE_SET,
-    GET_MY_SUBSCRIPTIONS, SET_CURRENT_SUB_ID, CLEAR_CURRENT_SUB_ID
+    GET_MY_SUBSCRIPTIONS, SET_CURRENT_SUB_ID, CLEAR_CURRENT_SUB_ID, GET_SUBSCRIPTIONS_FOR_SET, CLEAR_SUBSCRIPTIONS
 } from "../types";
 
 export default (state, action) => {
     switch (action.type) {
+        case GET_SUBSCRIPTIONS_FOR_SET:
         case GET_MY_SUBSCRIPTIONS:
             return {
                 ...state,
@@ -38,6 +39,12 @@ export default (state, action) => {
             return {
                 ...state,
                 error: action.payload
+            };
+        case CLEAR_SUBSCRIPTIONS:
+            return {
+                ...state,
+                subscriptions: null,
+                loading: true
             };
         default:
             return {

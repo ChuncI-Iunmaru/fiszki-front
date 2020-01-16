@@ -40,7 +40,7 @@ const SubscriptionItem = ({ subscription, subscribedView = false, history }) => 
 
     let progress = (learnedFlashcards.length/flashcards.length*100);
 
-    let ONE_SESSION_A_DAY = true;
+    let ONE_SESSION_A_DAY = false;
 
     const renderStudyButton = () => {
         if (progress === 100) {

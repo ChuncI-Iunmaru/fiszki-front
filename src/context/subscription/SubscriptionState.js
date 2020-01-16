@@ -8,7 +8,9 @@ import {
     SET_CURRENT_SUB_ID,
     SUBSCRIBE_TO_SET,
     SUBSCRIPTION_ERROR,
-    UNSUBSCRIBE_SET
+    UNSUBSCRIBE_SET,
+    GET_SUBSCRIPTIONS_FOR_SET,
+    CLEAR_SUBSCRIPTIONS
 } from "../types";
 
 const SubscriptionState = props => {
@@ -65,6 +67,15 @@ const SubscriptionState = props => {
         }
     };
 
+    const getSubscriptionsForSet = async id => {
+        try {
+            const res = await axios.get(`/subscription/set/${id}`);
+            dispatch({ type: GET_SUBSCRIPTIONS_FOR_SET, payload: res.data});
+        } catch (e) {
+            dispatch({type: SUBSCRIPTION_ERROR, payload: e.response.data.message});
+        }
+    };
+
     // Unsubscribe from set (Delete subscription)
     const unsubscribe = async id => {
         try {
@@ -86,6 +97,10 @@ const SubscriptionState = props => {
         dispatch({ type: CLEAR_CURRENT_SUB_ID})
     };
 
+    const clearSubscriptions = () => {
+        dispatch({type: CLEAR_SUBSCRIPTIONS})
+    };
+
     return (
         <SubscriptionContext.Provider value={{
             subscriptions: state.subscriptions,
@@ -96,7 +111,9 @@ const SubscriptionState = props => {
             unsubscribe,
             currentId: state.currentId,
             setCurrentId,
-            clearCurrentId
+            clearCurrentId,
+            getSubscriptionsForSet,
+            clearSubscriptions
         }}>
             {props.children}
         </SubscriptionContext.Provider>

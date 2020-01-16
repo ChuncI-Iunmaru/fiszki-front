@@ -32,6 +32,7 @@ const SetItem = ({ set, history, studentView = false, subscribedView = false }) 
 
     const onSubscribers = () => {
         // TODO Załaduj listę zapisanych na dany zestaw
+        setCurrentSet(set);
         //Przekieruj na stronę z detalami
         history.push('/subscription');
     };

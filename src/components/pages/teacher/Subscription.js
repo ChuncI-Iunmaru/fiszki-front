@@ -1,31 +1,37 @@
 import React, { useContext, useEffect } from 'react';
 import SubscriptionContext from "../../../context/subscription/subscriptionContext";
-import SubscriptionItem from "../../subscriptions/SubscriptionItem";
 import AuthContext from "../../../context/auth/authContext";
 import Spinner from "../../layout/Spinner";
+import SetContext from "../../../context/flashcardSet/setContext";
+import TeacherViewSubscriptionItem from "../../subscriptions/TeacherViewSubscriptionItem";
 
 const Subscription = () => {
     const authContext = useContext(AuthContext);
     const subscriptionContext = useContext(SubscriptionContext);
+    const setContext = useContext(SetContext);
 
-    const { subscriptions, getMySubscriptions, loading } = subscriptionContext;
+    const { subscriptions, getSubscriptionsForSet, loading } = subscriptionContext;
+    const { current: {id, title}} = setContext;
 
     useEffect(() => {
         console.log('Odświeżam');
         authContext.loadUser();
-        getMySubscriptions();
+        getSubscriptionsForSet(id);
         // eslint-disable-next-line
     }, []);
 
     if (subscriptions !== null && subscriptions.length === 0 && !loading) {
-        return (<h4>Nie zapisano na żaden zestaw!</h4>)
+        return (<h4>Brak zapisanych na ten zestaw!</h4>)
     }
 
     return (
-        <div className="grid-2">
-            {subscriptions !== null && !loading
-                ? subscriptions.map(subscription => (<SubscriptionItem key={subscription.id} subscription={subscription}/>))
-                : <Spinner/>}
+        <div>
+            <h3>Zapisani na zestaw <span className="text-primary">{title}</span></h3>
+            <div className="grid-2">
+                {subscriptions !== null && !loading
+                    ? subscriptions.map(subscription => (<TeacherViewSubscriptionItem key={subscription.id} subscription={subscription}/>))
+                    : <Spinner/>}
+            </div>
         </div>
     )
 };
