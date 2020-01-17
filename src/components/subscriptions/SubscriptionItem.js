@@ -51,7 +51,8 @@ const SubscriptionItem = ({ subscription, subscribedView = false, history }) => 
             //Jeżeli włączone, sprawdź datę => jeżeli inna od ostatniej sesji, włącz guzik,
             const today = new Date();
             const formattedDate = today.getDate().toLocaleString('en', {minimumIntegerDigits:2, maximumSignificantDigits:2}) + "." + today.getMonth()+1 + "." + today.getFullYear();
-            if (formattedDate !== formatDate(subscriptionDate)) {
+            //Próba obejścia niedostępności sesji w dniu zapisu - wymyślić lepiej
+            if (formattedDate !== formatDate(subscriptionDate) || (formattedDate === formatDate(subscriptionDate) && viewed === 0 && progress === 0)) {
                 return <button className="btn btn-success btn-sm" onClick={onStudy}>Ucz się</button>
             } else return <button className="btn btn-light btn-sm">Sesja skończona</button>;
             // inaczej daj koniec nauki na dziś
@@ -81,7 +82,7 @@ const SubscriptionItem = ({ subscription, subscribedView = false, history }) => 
             }
             <br></br>
             <h3 className="text-primary text-center">{!subscribedView && user.username}</h3>
-            <h4 className="text-dark text-left">Ostatnia sesja: {formatDate(subscriptionDate)}</h4>
+            <h4 className="text-dark text-left">{(viewed === 0 && progress === 0) ? "Zapisany" : "Ostatnia sesja"}: {formatDate(subscriptionDate)}</h4>
             <h4 className="text-dark text-left">
                 Przejrzane fiszki: {secondBox.length}/{flashcards.length}{' '}
                 { viewed=== 100

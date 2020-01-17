@@ -41,7 +41,7 @@ const AuthState = (props) => {
                payload: res.data
             });
         } catch (e) {
-            dispatch({type: AUTH_ERROR, payload: e});
+            dispatch({type: AUTH_ERROR, payload: e.response.data.message});
         }
     };
 
@@ -97,7 +97,7 @@ const AuthState = (props) => {
         } catch (e) {
             dispatch({
                 type: LOGIN_FAIL,
-                payload: e.response.data.msg
+                payload: e.response.data.message
             });
         }
     };

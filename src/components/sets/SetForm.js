@@ -59,8 +59,8 @@ const SetForm = (props) => {
         e.preventDefault();
         if (title === '') {
             setAlert('Tytuł nie może być pusty!', 'danger');
-        } else if (marked.length === 0) {
-            setAlert('Conajmniej 1 fiszka musi być zaznaczona!', 'danger');
+        } else if (marked.length < 2) {
+            setAlert('Conajmniej 2 fiszki muszą być zaznaczona!', 'danger');
         } else {
             if (current === null) {
                 addSet(set, marked, user);
