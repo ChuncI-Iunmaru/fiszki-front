@@ -17,7 +17,8 @@ describe("Login process errors", () => {
 
     it('should display invalid credentials alert', () => {
         cy.get('input[name="name"]').type(login).should('have.value', login);
-        cy.get('input[name="password"]').type(incorrectPassword).should('have.value', incorrectPassword);
+        cy.get('input[name="password"]').type(incorrectPassword).
+            should('have.value', incorrectPassword);
         cy.get('input[type="submit"]').click();
         cy.get(".alert").contains("Błędne dane logowania!");
     });
