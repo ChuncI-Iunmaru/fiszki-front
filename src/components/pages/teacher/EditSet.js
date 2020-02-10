@@ -13,12 +13,14 @@ const EditSet = () => {
     const alertContext = useContext(AlertContext);
     const setContext = useContext(SetContext);
     const { subscriptions, getSubscriptionsForSet} = subscriptionContext;
-    const { current: {id}} = setContext;
+    const { current} = setContext;
 
     useEffect(() => {
         console.log('Odświeżam');
         authContext.loadUser();
-        getSubscriptionsForSet(id);
+        if (current !== null) {
+            getSubscriptionsForSet(current.id);
+        }
         // eslint-disable-next-line
     }, []);
 

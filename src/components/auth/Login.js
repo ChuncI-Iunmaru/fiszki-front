@@ -16,7 +16,7 @@ const Login = (props) => {
         }
 
         if (error === 'Invalid credentials') {
-            setAlert('Błędne dane logowania!', 'danger', 20000);
+            setAlert('Błędne dane logowania!', 'danger');
             clearErrors();
         }
         // eslint-disable-next-line
